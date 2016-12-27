@@ -1,0 +1,11 @@
+* PREPARING FOR THE FUTURE OF ARTIFICIAL INTELLIGENCE
+  백악관에서 공개한 보고서 [[https://www.whitehouse.gov/sites/default/files/whitehouse_files/microsites/ostp/NSTC/preparing_for_the_future_of_ai.pdf][PREPARING FOR THE FUTURE OF ARTIFICIAL INTELLIGENCE]]를 보고 있다.
+
+** 정보 불균형
+- 한국의 경우 공공기관이 데이터를 공개하지 않거나 공개하더라도 극히 일부만 공개하는 경우를 보게 된다. 공공기관은 데이터를 직접 공개하거나 혹은 API 형태로 제공하고 그 위에서 서비스는 민간에게 맡기는 것이 바람직하다고 생각한다. 직접 서비스에 뛰어 들어 이득를 취하려고 하는 것은 공공에 맞지 않다고 본다. 예를 들면, 버스 도착 시간 정보를 API 형태로 제공하기만 하면 될 뿐 버스 정보 앱을 직접 개발할 필요는 없다고 생각한다. 버스 정보 앱을 누군가가 유료로 만들든 무료로 만들든 그것은 시장에 맡길 일이고 공공기관은 데이터를 활용할 수 있도록 무상으로 제공해주는 것으로 그 역할을 다 하면 되는 것이다.
+- 정보 중에서는 공공기관이 선뜻 공개하기 어려운 가치가 있는 것도 있을 것이나 정보 자체는 최대한 공개하여 사회적 불균형을 만들지 않는 것이 장기적으로 볼 때 가치가 있다고 생각한다. 미래 세상은 정보 불균형이 큰 문제가 될 것이다.
+
+
+
+
+

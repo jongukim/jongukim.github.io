@@ -1,0 +1,24 @@
+* 패키지
+** MELPA
+- 가장 안정적인 패키지 집합은 MELPA라고 생각
+- .emacs에 다음 코드를 추가하면 stable version의 패키시 사용 가능
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'package-archives
+             '("melpa-stable" . "http://melpa.melpa.org/packages/") t)
+#+END_SRC
+
+* 윈도우 환경
+- Emacs 64-bit 빌드가 [[https://sourceforge.net/projects/emacsbinw64/][sourceforge]] 에서 제공 중
+- 안정적으로 동작하며 windows 10에서도 잘 동작하는 것 확인
+- 다소 버벅이는 현상은 있음
+
+* 테마
+- 추천 테마는 material로 MELPA에 현재 패키지로 제공 중
+- 설치 후 (load-theme 'material t)를 .emacs에 추가
+
+* Error 발생 시
+** 윈도우 환경에서 Wrong type argument: stringp, nil 발생
+- 개인적으로는 Clojure + CIDER 환경에서 jack-in이 되지 않을 때 발생
+- emacs에서 외부 명령을 실행하려 할 때 발생할 수 있는 문제
+- 디버그 메시지에 cmd.exe 관련된 내용이 있다면 관련 에러일 수 있음
+- COMSPEC 환경변수를 C:\Windows\System32\cmd.exe로 설정
