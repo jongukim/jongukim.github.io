@@ -1,0 +1,14 @@
+* sshfs
+
+sshfs는 다음과 같이 사용하면 원격의 특정 디렉토리를 로컬 디렉토리인 것처럼 사용할 수 있다.
+IdentityFile 옵션을 통해 public key를 지정해줄 수 있다.
+
+#+BEGIN_EXAMPLE
+sshfs -o IdentityFile=/home/[ID]/.ssh/id_rsa.pub [ID]@[ADDR]:/home/[ID]/[Directory]/ [Mount dir]
+#+END_EXAMPLE
+
+원격에 ssh로 바로 접속한 후 지정한 디렉토리로 이동하고 싶을 경우 아래와 같이 cd 명령과 bash를 차례로 실행해주면 된다.
+
+#+BEGIN_EXAMPLE
+ssh -t [ID]@[ADDR] "cd [Directory]; bash --login"
+#+END_EXAMPLE

@@ -1,6 +1,7 @@
+#+TITLE: 머신 러닝 관련 내용
+#+OPTIONS: tex:t
 
-
-
+* 문제점
 ** 정보 불균형
 - 한국의 경우 공공기관이 데이터를 공개하지 않거나 공개하더라도 극히 일부만 공개
 - 공공기관은 데이터를 직접 공개하거나 혹은 API 형태로 제공하고 서비스는 민간에게 맡기는 것이 바람직
@@ -13,8 +14,15 @@
 - 미래 세상은 정보 불균형이 큰 문제가 될 것
 - 정부가 최대한 이 균형을 맞추는 것에 노력해야 한다
 
+** 앞서 나가는 분야 : 무인 자동차, 무인 비행체
+무인 자동차와 무인 비행 시스템(UAS, unmanned aircraft system 또는 드론)이 현재 앞서 나가는 분야이다.
+장애가 있는 사람들이 자동차를 활용할 가능성을 높일 수 있다.
+효율적 운행으로 에너지 소비를 줄일 수 있다.
+사고 확률을 낮출 수 있다.
+
+* LaTeX
+$f_{e}(i)$
+\alpha \rightarrow \beta
 
 
-
-
-백악관에서 공개한 보고서: [[https://www.whitehouse.gov/sites/default/files/whitehouse_files/microsites/ostp/NSTC/preparing_for_the_future_of_ai.pdf][PREPARING FOR THE FUTURE OF ARTIFICIAL INTELLIGENCE]]
+백악관에서 공개한 보고서: [[https://www.whitehouse.gov/sites/default/files/whitehouse_files/microsites/ostp/NSTC/preparing_for_the_future_of_ai.pdf][Preparing for the Future of Artificial Intelligence]]
