@@ -1,20 +1,35 @@
 * 패키지
 ** MELPA
-가장 안정적이면서도 다양한 패키지를 제공하는 곳은 MELPA라고 생각한다.
-.emacs에 다음 코드를 추가하면 stable version의 패키지를 사용할 수 있다.
+MELPA는 다양한 패키지를 제공하고 있다.
+.emacs에 다음 코드를 추가하면 된다.
+stable version을 제공하는 repository도 있으나 가끔 없는 패키지가 있다.
+MELPA 패키지를 그대로 사용하는 것을 추천한다.
+단, 가끔 오류가 있는 최신 버전이 업로드 되는 경우가 있다.
 #+BEGIN_SRC emacs-lisp
+(require 'package)
 (add-to-list 'package-archives
-             '("melpa-stable" . "http://melpa.melpa.org/packages/") t)
+             '("melpa" . "https://melpa.org/packages/"))
+(package-initialize)
+(when (not package-archive-contents)
+  (package-refresh-contents))
 #+END_SRC
+윈도우 환경에서는 SSL(TLS) 관련 오류가 나기도 한다.
+https 대신에 http로 접속하면 우선 사용은 가능하다.
+리눅스 환경에서는 이와 같은 오류를 본 적은 없다.
 
 * TeX와의 연동
 ** auctex
-auctex는 package-install로 설치 가능하다. gnu가 기본으로 제공하는 repository에 있다.
-물론 texlive는 별도로 설치해야 한다.
-** .emacs에서의 설정
-아래와 같은 설정을 추가한다. 기본으로 PDF로 출력하고 synctex를 설정한다.
-여기서는 [[https://www.sumatrapdfreader.org/free-pdf-reader.html][SumatraPDF]] 를 사용한다. 무료다.
-현재 보여주고 있는 PDF 파일에 변동이 발생하면 반영해주기 때문에 이 PDF viewer를 사용하고 있다.
+auctex는 gnu가 기본으로 제공하는 repository에 있다.
+texlive는 별도로 설치해야 한다.
+
+** 윈도우에서 synctex 설정하기
+.emacs에 아래와 같은 설정을 추가한다.
+기본으로 PDF로 출력하고 synctex를 설정하는 코드이다.
+PDF viewer는 [[https://www.sumatrapdfreader.org/free-pdf-reader.html][SumatraPDF]] 를 사용한다.
+무료다.
+Adobe Reader와 같은 유명한 viewer를 사용하지 않고 SumatraPDF를 사용하는 이유는
+현재 열려 있는 파일에 수정을 가했을 때 변경 사항을 바로 적용해주기 때문이다.
+
 #+BEGIN_SRC emacs-lisp
 (setq TeX-PDF-mode t)
 (setq TeX-source-correlate-mode t)
@@ -28,17 +43,20 @@ auctex는 package-install로 설치 가능하다. gnu가 기본으로 제공하�
      (assq-delete-all 'output-pdf TeX-view-program-selection)
      (add-to-list 'TeX-view-program-selection '(output-pdf "Sumatra PDF"))))
 #+END_SRC
-위와 같이 설정한 뒤에는 emacs에서 C-c C-v를 입력하면
-현재 커서가 있는 소스 위치에 해당하는 PDF 페이지로 SumatraPDF가 이동한다.
 
-그리고 역으로 SumatraPDF에서 특정 영역을 더블 클릭하면 해당 소스코드(.tex) 위치로
+위와 같이 설정한 후,
+emacs에서 C-c C-v를 입력하면 현재 커서가 있는 소스코드에 해당하는 PDF 페이지로 SumatraPDF가 이동한다.
+
+역으로, SumatraPDF에서 특정 영역을 더블 클릭하면 해당 소스코드(.tex) 위치로
 emacs의 커서가 이동하게 만들 수 있는데 아래 내용을 SumatraPDF의 설정 \rightarrow 옵션에서
 "명령줄 역방향 탐색 설정"에 입력하면 된다.
 #+BEGIN_QUOTE
 emacsclientw --no-wait +%l "%f"
 #+END_QUOTE
-내 경우는 emacsclientw가 바로 실행될 수 있도록 윈도우 PATH에 emacs의 bin 폴더가 추가되어있다.
+
+위와 같이 상대경로로만 실행하려면 당연히 emacsclientw가 바로 실행될 수 있도록 윈도우 PATH에 emacs의 bin 폴더가 추가되어 있어야 한다.
 PATH를 설정하지 않은 경우에는 절대경로를 설정하면 된다.
+
 * Python 개발
 ** Elpy
 elpy와 py-autopep8을 package로 설치하고 다음 설정을 .emacs에 추가한다.
@@ -64,23 +82,14 @@ company는 기본적으로 M-TAB이 complete를 위한 키인데,
 윈도우에서는 alt-tab을 누르면 창이 전환되므로 다른 키로 바인딩하는 것이 필요하다.
 emacs에서는 보통 프로그래밍 코드에서 tab이 auto-indentation을 수행하기 때문에
 company는 상황에 따라서 indentation과 complete를 알아서 수행하는 기능을 가지고 있다.
+
 * 윈도우 환경
-Emacs 64-bit 빌드가 [[https://sourceforge.net/projects/emacsbinw64/][sourceforge]] 에서 제공 중이어서 예전에 이것을 사용했는데,
-GNU 공식 홈페이지에 가보니 여기서도 64-bit 버전을 제공하고 있었다.
-현재로는 GNU 공식 바이너리를 사용하고 있다.
-* 테마
-추천 테마는 =material=로 MELPA에 현재 패키지로 제공 중이다.
-설치 후 (load-theme 'material t)를 .emacs에 추가하면 사용할 수 있다.
-* Error 발생 시
-** 윈도우 환경에서 Wrong type argument: stringp, nil 발생
-개인적으로는 Clojure + CIDER 환경에서 cider-jack-in이 되지 않을 때 발생했다.
-emacs에서 외부 명령을 실행하려 할 때 발생할 수 있는 문제인데,
-디버그 메시지에 cmd.exe 관련된 내용이 있다면 관련 에러일 수 있다.
-윈도우 환경변수 설정하는 곳으로 가서
-COMSPEC 환경변수를 C:\Windows\System32\cmd.exe로 설정하면 문제가 해결될 수 있다.
-* 속도 개선
+Emacs 64-bit 빌드가 [[https://sourceforge.net/projects/emacsbinw64/][sourceforge]] 에서 제공 중인 버전도 있고,
+GNU 공식 홈페이지도 64-bit 버전을 제공하고 있었다.
+최근(2017년 1월) 확인한 결과로는 둘 다 안정적으로 동작한다.
+
 ** 영문자 외 폰트로 인한 속도 저하
-리눅스 버전에서는 느껴본 적 없는 문제로, 윈도우 버전에서 발생한 문제였다.
+리눅스 버전에서는 경험하지 못했던 문제로, 윈도우 버전에서 발생한 문제다.
 영문으로 된 영역에서는 커서 이동이 잘 되다가 한글이 있는 라인으로 갈 경우 속도가 느려지는 것을 관찰했다.
 그리고 한-영 전환 시에도 꽤 오래 시간이 소요되었다.
 결국 폰트 문제라는 것을 알게 되었는데,
@@ -89,14 +98,30 @@ COMSPEC 환경변수를 C:\Windows\System32\cmd.exe로 설정하면 문제가 �
 (set-default-font "Fira Code Retina-13")
 (set-fontset-font "fontset-default" 'korean-ksc5601 "Noto Sans Mono CJK KR-13")
 #+END_SRC
+
 이 경우 영문인지, 한글인지에 따라 폰트 표현을 다르게 가져가야 해서 시간이 많이 걸리는 것으로 추측된다.
 아래와 같이 한글과 영문을 함께 가지고 있는 고정폭 폰트(D2 Coding이나 NanumGothicCoding)을 사용하면
 확실한 성능 개선을 볼 수 있었다.
+
 #+BEGIN_SRC emacs-lisp
 (set-default-font "D2Coding-14")
 #+END_SRC
 
+* 테마
+추천 테마는 material이나 tao-theme다.
+MELPA에서 패키지로 설치할 수 있다.
 
+설치 후 (load-theme '[theme-name] t)를 .emacs에 추가하면 사용할 수 있다.
+material의 경우 material, tao의 경우 tao-yin을 추천한다.
+
+* Error 발생 시
+
+** 윈도우 환경에서 Wrong type argument: stringp, nil 발생
+개인적으로는 Clojure + CIDER 환경에서 cider-jack-in이 되지 않을 때 발생했다.
+emacs에서 외부 명령을 실행하려 할 때 발생할 수 있는 문제인데,
+디버그 메시지에 cmd.exe 관련된 내용이 있다면 관련 에러일 수 있다.
+윈도우 환경변수 설정하는 곳으로 가서
+COMSPEC 환경변수를 C:\Windows\System32\cmd.exe로 설정하면 문제가 해결될 수 있다.
 
 * 기타 팁
 ** ido-mode와 새 파일 생성 시 충돌

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <title></title>
-<!-- 2017-01-24 화 00:05 -->
+<!-- 2017-01-24 화 00:23 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="Org-mode">
@@ -226,15 +226,27 @@ MathJax.Hub.Config({
 <h3 id="sec-1-1"><span class="section-number-3">1.1</span> MELPA</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
-가장 안정적이면서도 다양한 패키지를 제공하는 곳은 MELPA라고 생각한다.
-.emacs에 다음 코드를 추가하면 stable version의 패키지를 사용할 수 있다.
+MELPA는 다양한 패키지를 제공하고 있다.
+.emacs에 다음 코드를 추가하면 된다.
+stable version을 제공하는 repository도 있으나 가끔 없는 패키지가 있다.
+MELPA 패키지를 그대로 사용하는 것을 추천한다.
+단, 가끔 오류가 있는 최신 버전이 업로드 되는 경우가 있다.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(add-to-list 'package-archives
-             '("melpa-stable" . "http://melpa.melpa.org/packages/") t)
+<pre class="src src-emacs-lisp">(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+(package-initialize)
+(when (not package-archive-contents)
+  (package-refresh-contents))
 </pre>
 </div>
+<p>
+윈도우 환경에서는 SSL(TLS) 관련 오류가 나기도 한다.
+https 대신에 http로 접속하면 우선 사용은 가능하다.
+리눅스 환경에서는 이와 같은 오류를 본 적은 없다.
+</p>
 </div>
 </div>
 </div>
@@ -246,19 +258,24 @@ MathJax.Hub.Config({
 <h3 id="sec-2-1"><span class="section-number-3">2.1</span> auctex</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
-auctex는 package-install로 설치 가능하다. gnu가 기본으로 제공하는 repository에 있다.
-물론 texlive는 별도로 설치해야 한다.
+auctex는 gnu가 기본으로 제공하는 repository에 있다.
+texlive는 별도로 설치해야 한다.
 </p>
 </div>
 </div>
+
 <div id="outline-container-sec-2-2" class="outline-3">
-<h3 id="sec-2-2"><span class="section-number-3">2.2</span> .emacs에서의 설정</h3>
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> 윈도우에서 synctex 설정하기</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
-아래와 같은 설정을 추가한다. 기본으로 PDF로 출력하고 synctex를 설정한다.
-여기서는 <a href="https://www.sumatrapdfreader.org/free-pdf-reader.html">SumatraPDF</a> 를 사용한다. 무료다.
-현재 보여주고 있는 PDF 파일에 변동이 발생하면 반영해주기 때문에 이 PDF viewer를 사용하고 있다.
+.emacs에 아래와 같은 설정을 추가한다.
+기본으로 PDF로 출력하고 synctex를 설정하는 코드이다.
+PDF viewer는 <a href="https://www.sumatrapdfreader.org/free-pdf-reader.html">SumatraPDF</a> 를 사용한다.
+무료다.
+Adobe Reader와 같은 유명한 viewer를 사용하지 않고 SumatraPDF를 사용하는 이유는
+현재 열려 있는 파일에 수정을 가했을 때 변경 사항을 바로 적용해주기 때문이다.
 </p>
+
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(setq TeX-PDF-mode t)
@@ -274,13 +291,14 @@ auctex는 package-install로 설치 가능하다. gnu가 기본으로 제공하�
      (add-to-list 'TeX-view-program-selection '(output-pdf "Sumatra PDF"))))
 </pre>
 </div>
+
 <p>
-위와 같이 설정한 뒤에는 emacs에서 C-c C-v를 입력하면
-현재 커서가 있는 소스 위치에 해당하는 PDF 페이지로 SumatraPDF가 이동한다.
+위와 같이 설정한 후,
+emacs에서 C-c C-v를 입력하면 현재 커서가 있는 소스코드에 해당하는 PDF 페이지로 SumatraPDF가 이동한다.
 </p>
 
 <p>
-그리고 역으로 SumatraPDF에서 특정 영역을 더블 클릭하면 해당 소스코드(.tex) 위치로
+역으로, SumatraPDF에서 특정 영역을 더블 클릭하면 해당 소스코드(.tex) 위치로
 emacs의 커서가 이동하게 만들 수 있는데 아래 내용을 SumatraPDF의 설정 &rarr; 옵션에서
 "명령줄 역방향 탐색 설정"에 입력하면 된다.
 </p>
@@ -289,13 +307,15 @@ emacs의 커서가 이동하게 만들 수 있는데 아래 내용을 SumatraPDF
 emacsclientw &#x2013;no-wait +%l "%f"
 </p>
 </blockquote>
+
 <p>
-내 경우는 emacsclientw가 바로 실행될 수 있도록 윈도우 PATH에 emacs의 bin 폴더가 추가되어있다.
+위와 같이 상대경로로만 실행하려면 당연히 emacsclientw가 바로 실행될 수 있도록 윈도우 PATH에 emacs의 bin 폴더가 추가되어 있어야 한다.
 PATH를 설정하지 않은 경우에는 절대경로를 설정하면 된다.
 </p>
 </div>
 </div>
 </div>
+
 <div id="outline-container-sec-3" class="outline-2">
 <h2 id="sec-3"><span class="section-number-2">3</span> Python 개발</h2>
 <div class="outline-text-2" id="text-3">
@@ -340,25 +360,64 @@ company는 상황에 따라서 indentation과 complete를 알아서 수행하는
 </div>
 </div>
 </div>
+
 <div id="outline-container-sec-4" class="outline-2">
 <h2 id="sec-4"><span class="section-number-2">4</span> 윈도우 환경</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-Emacs 64-bit 빌드가 <a href="https://sourceforge.net/projects/emacsbinw64/">sourceforge</a> 에서 제공 중이어서 예전에 이것을 사용했는데,
-GNU 공식 홈페이지에 가보니 여기서도 64-bit 버전을 제공하고 있었다.
-현재로는 GNU 공식 바이너리를 사용하고 있다.
+Emacs 64-bit 빌드가 <a href="https://sourceforge.net/projects/emacsbinw64/">sourceforge</a> 에서 제공 중인 버전도 있고,
+GNU 공식 홈페이지도 64-bit 버전을 제공하고 있었다.
+최근(2017년 1월) 확인한 결과로는 둘 다 안정적으로 동작한다.
 </p>
 </div>
+
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> 영문자 외 폰트로 인한 속도 저하</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+리눅스 버전에서는 경험하지 못했던 문제로, 윈도우 버전에서 발생한 문제다.
+영문으로 된 영역에서는 커서 이동이 잘 되다가 한글이 있는 라인으로 갈 경우 속도가 느려지는 것을 관찰했다.
+그리고 한-영 전환 시에도 꽤 오래 시간이 소요되었다.
+결국 폰트 문제라는 것을 알게 되었는데,
+기존의 경우 아래와 같이 영문 폰트와 한글 폰트를 함께 지정했다.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(set-default-font "Fira Code Retina-13")
+(set-fontset-font "fontset-default" 'korean-ksc5601 "Noto Sans Mono CJK KR-13")
+</pre>
 </div>
+
+<p>
+이 경우 영문인지, 한글인지에 따라 폰트 표현을 다르게 가져가야 해서 시간이 많이 걸리는 것으로 추측된다.
+아래와 같이 한글과 영문을 함께 가지고 있는 고정폭 폰트(D2 Coding이나 NanumGothicCoding)을 사용하면
+확실한 성능 개선을 볼 수 있었다.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(set-default-font "D2Coding-14")
+</pre>
+</div>
+</div>
+</div>
+</div>
+
 <div id="outline-container-sec-5" class="outline-2">
 <h2 id="sec-5"><span class="section-number-2">5</span> 테마</h2>
 <div class="outline-text-2" id="text-5">
 <p>
-추천 테마는 =material=로 MELPA에 현재 패키지로 제공 중이다.
-설치 후 (load-theme 'material t)를 .emacs에 추가하면 사용할 수 있다.
+추천 테마는 material이나 tao-theme다.
+MELPA에서 패키지로 설치할 수 있다.
+</p>
+
+<p>
+설치 후 (load-theme '[theme-name] t)를 .emacs에 추가하면 사용할 수 있다.
+material의 경우 material, tao의 경우 tao-yin을 추천한다.
 </p>
 </div>
 </div>
+
 <div id="outline-container-sec-6" class="outline-2">
 <h2 id="sec-6"><span class="section-number-2">6</span> Error 발생 시</h2>
 <div class="outline-text-2" id="text-6">
@@ -375,47 +434,13 @@ COMSPEC 환경변수를 C:\Windows\System32\cmd.exe로 설정하면 문제가 �
 </div>
 </div>
 </div>
+
 <div id="outline-container-sec-7" class="outline-2">
-<h2 id="sec-7"><span class="section-number-2">7</span> 속도 개선</h2>
+<h2 id="sec-7"><span class="section-number-2">7</span> 기타 팁</h2>
 <div class="outline-text-2" id="text-7">
 </div><div id="outline-container-sec-7-1" class="outline-3">
-<h3 id="sec-7-1"><span class="section-number-3">7.1</span> 영문자 외 폰트로 인한 속도 저하</h3>
+<h3 id="sec-7-1"><span class="section-number-3">7.1</span> ido-mode와 새 파일 생성 시 충돌</h3>
 <div class="outline-text-3" id="text-7-1">
-<p>
-리눅스 버전에서는 느껴본 적 없는 문제로, 윈도우 버전에서 발생한 문제였다.
-영문으로 된 영역에서는 커서 이동이 잘 되다가 한글이 있는 라인으로 갈 경우 속도가 느려지는 것을 관찰했다.
-그리고 한-영 전환 시에도 꽤 오래 시간이 소요되었다.
-결국 폰트 문제라는 것을 알게 되었는데,
-기존의 경우 아래와 같이 영문 폰트와 한글 폰트를 함께 지정했다.
-</p>
-<div class="org-src-container">
-
-<pre class="src src-emacs-lisp">(set-default-font "Fira Code Retina-13")
-(set-fontset-font "fontset-default" 'korean-ksc5601 "Noto Sans Mono CJK KR-13")
-</pre>
-</div>
-<p>
-이 경우 영문인지, 한글인지에 따라 폰트 표현을 다르게 가져가야 해서 시간이 많이 걸리는 것으로 추측된다.
-아래와 같이 한글과 영문을 함께 가지고 있는 고정폭 폰트(D2 Coding이나 NanumGothicCoding)을 사용하면
-확실한 성능 개선을 볼 수 있었다.
-</p>
-<div class="org-src-container">
-
-<pre class="src src-emacs-lisp">(set-default-font "D2Coding-14")
-</pre>
-</div>
-</div>
-</div>
-</div>
-
-
-
-<div id="outline-container-sec-8" class="outline-2">
-<h2 id="sec-8"><span class="section-number-2">8</span> 기타 팁</h2>
-<div class="outline-text-2" id="text-8">
-</div><div id="outline-container-sec-8-1" class="outline-3">
-<h3 id="sec-8-1"><span class="section-number-3">8.1</span> ido-mode와 새 파일 생성 시 충돌</h3>
-<div class="outline-text-3" id="text-8-1">
 <p>
 ido-mode가 동작 중일 때,
 abc.txt라는 파일을 만들고 싶은데
@@ -447,7 +472,7 @@ C-x C-f C-f를 이용하면 된다.
 <li><a href="#sec-2">2. TeX와의 연동</a>
 <ul class="nav">
 <li><a href="#sec-2-1">2.1. auctex</a></li>
-<li><a href="#sec-2-2">2.2. .emacs에서의 설정</a></li>
+<li><a href="#sec-2-2">2.2. 윈도우에서 synctex 설정하기</a></li>
 </ul>
 </li>
 <li><a href="#sec-3">3. Python 개발</a>
@@ -455,21 +480,20 @@ C-x C-f C-f를 이용하면 된다.
 <li><a href="#sec-3-1">3.1. Elpy</a></li>
 </ul>
 </li>
-<li><a href="#sec-4">4. 윈도우 환경</a></li>
+<li><a href="#sec-4">4. 윈도우 환경</a>
+<ul class="nav">
+<li><a href="#sec-4-1">4.1. 영문자 외 폰트로 인한 속도 저하</a></li>
+</ul>
+</li>
 <li><a href="#sec-5">5. 테마</a></li>
 <li><a href="#sec-6">6. Error 발생 시</a>
 <ul class="nav">
 <li><a href="#sec-6-1">6.1. 윈도우 환경에서 Wrong type argument: stringp, nil 발생</a></li>
 </ul>
 </li>
-<li><a href="#sec-7">7. 속도 개선</a>
+<li><a href="#sec-7">7. 기타 팁</a>
 <ul class="nav">
-<li><a href="#sec-7-1">7.1. 영문자 외 폰트로 인한 속도 저하</a></li>
-</ul>
-</li>
-<li><a href="#sec-8">8. 기타 팁</a>
-<ul class="nav">
-<li><a href="#sec-8-1">8.1. ido-mode와 새 파일 생성 시 충돌</a></li>
+<li><a href="#sec-7-1">7.1. ido-mode와 새 파일 생성 시 충돌</a></li>
 </ul>
 </li>
 </ul>
@@ -478,7 +502,7 @@ C-x C-f C-f를 이용하면 된다.
 </div></div></div>
 <footer id="postamble" class="">
 <div><p class="author">Author: Jonguk Kim</p>
-<p class="date">Created: 2017-01-24 화 00:05</p>
+<p class="date">Created: 2017-01-24 화 00:23</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org-mode</a> 9.0.3)</p>
 </div>
 </footer>
