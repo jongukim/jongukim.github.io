@@ -1,7 +1,7 @@
 #+TITLE: emacs tips
 
 * 패키지
-** MELPA
+** <<MELPA>>
 MELPA는 다양한 패키지를 제공하고 있다.
 .emacs에 다음 코드를 추가하면 된다.
 stable version을 제공하는 repository도 있으나 가끔 없는 패키지가 있다.
@@ -111,7 +111,7 @@ GNU 공식 홈페이지도 64-bit 버전을 제공하고 있었다.
 
 * 테마
 추천 테마는 material이나 tao-theme다.
-MELPA에서 패키지로 설치할 수 있다.
+[[MELPA]]에서 패키지로 설치할 수 있다.
 
 설치 후 (load-theme '[theme-name] t)를 .emacs에 추가하면 사용할 수 있다.
 material의 경우 material, tao의 경우 tao-yin을 추천한다.
@@ -126,13 +126,14 @@ emacs에서 외부 명령을 실행하려 할 때 발생할 수 있는 문제인
 COMSPEC 환경변수를 C:\Windows\System32\cmd.exe로 설정하면 문제가 해결될 수 있다.
 
 * 기타 팁
+
 ** ido-mode와 새 파일 생성 시 충돌
 ido-mode가 동작 중일 때,
 abc.txt라는 파일을 만들고 싶은데
 이미 다른 디렉토리에 같은 이름의 파일이 있고
 내가 그 파일을 최근에 열었던 적이 있다면,
 C-x C-f 입력 후 abc.txt를 입력하면 예전에 열었던 파일을 열려고 한다.
-생각해보면 C-x C-f는 find file이기 때문에 이렇게 동작하는 것이 일리가 있다.
+생각해보면 C-x C-f은 find file이라는 의미의 단축키이기 때문에 이렇게 동작하는 것이 일리가 있다.
 
 이런 경우는 자주 발생하지 않지만
 .gitignore를 만들 때와 같이 동일한 파일이 여러 디렉토리에 있을 경우가 있을 수 있다.
