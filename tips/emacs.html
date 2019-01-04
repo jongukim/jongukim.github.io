@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
 <title>emacs tips</title>
-<!-- 2017-01-24 화 00:40 -->
+<!-- 2019-01-04 금 11:46 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="Org-mode">
-<meta name="author" content="Jonguk Kim">
 
 <link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -188,7 +187,7 @@ $(function() {
 
     $('.bs-docs-sidebar').affix();
 });
-</script>
+</script><style>pre { background-color: #333; color: #ccc; }</style>
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -221,11 +220,129 @@ MathJax.Hub.Config({
 <div class="row"><div class="col-md-9"><h1 class="title">emacs tips</h1>
 
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> 패키지</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> Spacemacs</h2>
 <div class="outline-text-2" id="text-1">
-</div><div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> <a id="MELPA" name="MELPA"></a></h3>
+<p>
+emacs user에게 Spacemacs는 emacs의 복잡한 설정을 간단히 처리해주는 wrapper 정도로 볼 수 있다.
+"emacs 설정이 복잡하다고?"라고 의문을 가지는 고수는 그냥 <a href="#vanilla-emacs">Vanilla emacs</a>를 사용하면서 직접 설정하는 편이 낫다.
+</p>
+
+<p>
+다음의 경우 spacemacs가 좋다.
+</p>
+<ul class="org-ul">
+<li>본래 vim 사용자인데 emacs가 써보고 싶다.
+</li>
+<li>emacs를 쓰긴 하지만 customizing을 열심히 하지 않는 편이고, 설정이 귀찮다.
+</li>
+</ul>
+
+<p>
+emacs는 control, alt, shift 등의 key를 복잡하게 조합해서 여러 명령을 빠르게 접근하는 방식이라면,
+vim은 command mode와 editing mode가 별도로 존재하는 방식인데,
+spacemacs를 사용하면 마치 vim을 사용하듯 command mode와 editing mode를 나눠서 emacs를 사용할 수 있다.
+단축키도 기본적으로 vim과 유사하게 설정되어 있는 것으로 알고 있다.
+이름 그대로 명령의 시작은 space key로 시작한다.
+개인적으로 emacs user이기 때문에 vim mode에 대해서는 잘 모른다.
+</p>
+
+
+<p>
+설치 방법은 <a href="http://spacemacs.org/">spacemacs 홈페이지</a>에 나와있는데 보면 알겠지만 git clone으로 ~/.emacs.d/를 내려 받는 것이다.
+즉, emacs는 이미 설치가 되어 있는 상태여야 한다.
+본래 emacs를 사용하고 있었다면 .emacs.d 디렉토리를 지우고 설치하면 된다.
+다시 말하지만 xemacs 등과 같이 별도의 emacs 배포판이 아니라 설정을 도와주는 것이다.
+</p>
+</div>
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 설치 관련</h3>
 <div class="outline-text-3" id="text-1-1">
+</div><div id="outline-container-sec-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> 윈도우에서의 설치</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<p>
+git clone으로 설치하기 때문에 git을 미리 설치해야 한다.
+그리고 환경 변수 HOME을 자신의 홈 디렉토리를 설정한다. 예를 들면, c:/Users/yourname가 될 것이다.
+설치 방법은 다른 운영체제와 동일하지만 윈도우에서는 쉘에서 ~를 홈 디렉토리로 인식하지 않으니 다음과 같이 ~/.emacs.d를 .emacs.d로 바꾸고 홈 디렉토리에서 실행하면 된다.
+</p>
+
+<pre class="example">
+git clone https://github.com/syl20bnr/spacemacs .emacs.d
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Projectile</h3>
+<div class="outline-text-3" id="text-1-2">
+</div><div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> projectile-find-file (M-RET p f)에서의 오류</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+current directory를 찾기 못하면서 파일 탐색이 안되는 경우가 있다.
+개인적으로는 github desktop을 이용해서 clone한 디렉토리에서 문제가 발생했다.
+git submodule 관련인 것으로 <a href="https://github.com/bbatsov/projectile/issues/1302">보인다</a>.
+</p>
+
+<p>
+.spacemacs의 user-config에 (setq projectile-git-submodule-command nil)를 추가하면 문제가 해결된다.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> export</h3>
+<div class="outline-text-3" id="text-1-3">
+</div><div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> Twitter bootstrap</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<p>
+org-mode가 가지고 있는 기본 html export는 너무 기본적인 디자인으로 출력된다.
+layer 설정에서 org 대신에 (org :variables org-enable-bootstrap-support t)를 사용하면 twitter bootstrap을 사용해서 html 파일로 출력할 수 있다.
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="sec-1-3-1-1" name="sec-1-3-1-1"></a>Source code 출력 시 syntax highlight 색상 문제<br ><div class="outline-text-5" id="text-1-3-1-1">
+<p>
+org에서 #+BEGIN SRC - #+END SRC 블록을 이용해서 소스코드를 포함하면 twitter bootstrap으로 출력 시 자동으로 syntax highlight가 됐다.
+단, 하이라이트의 색상이 현재 사용 중인 테마를 따르는 것으로 보인다.
+개인적으로 어두운 배경을 가진 이멕스 테마(material)를 사용 중이다.
+따라서 글자가 밝은 색으로 하이라이트 되는데, html 출력 시 배경은 밝은 색이라 글자가 잘 보이지 않았다.
+</p>
+
+<p>
+다음 선언을 파일 가장 위에서 해주면 BEGIN-END 블록에서의 배경색과 글자색을 어둡게 지정할 수 있다.
+</p>
+
+<pre class="example">
+#+HTML_HEAD_EXTRA: &lt;style&gt;pre { background-color: #333; color: #ccc; }&lt;/style&gt;
+</pre>
+</div>
+</li></ol>
+</div>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> <a id="vanilla-emacs" name="vanilla-emacs"></a>Vanilla emacs</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+기본 emacs에 대한 팁을 정리한다.
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> 패키지</h3>
+<div class="outline-text-3" id="text-2-1">
+</div><div id="outline-container-sec-2-1-1" class="outline-4">
+<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> <a id="MELPA" name="MELPA"></a></h4>
+<div class="outline-text-4" id="text-2-1-1">
 <p>
 MELPA는 다양한 패키지를 제공하고 있다.
 .emacs에 다음 코드를 추가하면 된다.
@@ -233,16 +350,18 @@ stable version을 제공하는 repository도 있으나 가끔 없는 패키지�
 MELPA 패키지를 그대로 사용하는 것을 추천한다.
 단, 가끔 오류가 있는 최신 버전이 업로드 되는 경우가 있다.
 </p>
+
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
-(package-initialize)
-(when (not package-archive-contents)
-  (package-refresh-contents))
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">require</span> '<span style="color: #8bc34a;">package</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span>add-to-list 'package-archives
+             '<span style="color: #2196F3;">(</span><span style="color: #9ccc65;">"melpa"</span> . <span style="color: #9ccc65;">"https://melpa.org/packages/"</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span>package-initialize<span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #fff59d;">when</span> <span style="color: #2196F3;">(</span>not package-archive-contents<span style="color: #2196F3;">)</span>
+  <span style="color: #2196F3;">(</span>package-refresh-contents<span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
 </pre>
 </div>
+
 <p>
 윈도우 환경에서는 SSL(TLS) 관련 오류가 나기도 한다.
 https 대신에 http로 접속하면 우선 사용은 가능하다.
@@ -252,12 +371,12 @@ https 대신에 http로 접속하면 우선 사용은 가능하다.
 </div>
 </div>
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> TeX와의 연동</h2>
-<div class="outline-text-2" id="text-2">
-</div><div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1"><span class="section-number-3">2.1</span> auctex</h3>
-<div class="outline-text-3" id="text-2-1">
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> TeX와의 연동</h3>
+<div class="outline-text-3" id="text-2-2">
+</div><div id="outline-container-sec-2-2-1" class="outline-4">
+<h4 id="sec-2-2-1"><span class="section-number-4">2.2.1</span> auctex</h4>
+<div class="outline-text-4" id="text-2-2-1">
 <p>
 auctex는 gnu가 기본으로 제공하는 repository에 있다.
 texlive는 별도로 설치해야 한다.
@@ -265,9 +384,9 @@ texlive는 별도로 설치해야 한다.
 </div>
 </div>
 
-<div id="outline-container-sec-2-2" class="outline-3">
-<h3 id="sec-2-2"><span class="section-number-3">2.2</span> 윈도우에서 synctex 설정하기</h3>
-<div class="outline-text-3" id="text-2-2">
+<div id="outline-container-sec-2-2-2" class="outline-4">
+<h4 id="sec-2-2-2"><span class="section-number-4">2.2.2</span> 윈도우에서 synctex 설정하기</h4>
+<div class="outline-text-4" id="text-2-2-2">
 <p>
 .emacs에 아래와 같은 설정을 추가한다.
 기본으로 PDF로 출력하고 synctex를 설정하는 코드이다.
@@ -279,17 +398,17 @@ Adobe Reader와 같은 유명한 viewer를 사용하지 않고 SumatraPDF를 사
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(setq TeX-PDF-mode t)
-(setq TeX-source-correlate-mode t)
-(setq TeX-source-correlate-method 'synctex)
-(setq TeX-source-correlate-start-server t)
-(setq TeX-view-program-list
-   '(("Sumatra PDF" ("\"C:/Program Files/SumatraPDF/SumatraPDF.exe\" -reuse-instance"
-                      (mode-io-correlate " -forward-search %b %n ") " %o"))))
-(eval-after-load 'tex
-  '(progn
-     (assq-delete-all 'output-pdf TeX-view-program-selection)
-     (add-to-list 'TeX-view-program-selection '(output-pdf "Sumatra PDF"))))
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">setq</span> TeX-PDF-mode t<span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #fff59d;">setq</span> TeX-source-correlate-mode t<span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #fff59d;">setq</span> TeX-source-correlate-method 'synctex<span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #fff59d;">setq</span> TeX-source-correlate-start-server t<span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #fff59d;">setq</span> TeX-view-program-list
+   '<span style="color: #2196F3;">(</span><span style="color: #EF6C00;">(</span><span style="color: #9ccc65;">"Sumatra PDF"</span> <span style="color: #B388FF;">(</span><span style="color: #9ccc65;">"\"C:/Program Files/SumatraPDF/SumatraPDF.exe\" -reuse-instance"</span>
+                      <span style="color: #76ff03;">(</span>mode-io-correlate <span style="color: #9ccc65;">" -forward-search %b %n "</span><span style="color: #76ff03;">)</span> <span style="color: #9ccc65;">" %o"</span><span style="color: #B388FF;">)</span><span style="color: #EF6C00;">)</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span>eval-after-load 'tex
+  '<span style="color: #2196F3;">(</span><span style="color: #fff59d;">progn</span>
+     <span style="color: #EF6C00;">(</span>assq-delete-all 'output-pdf TeX-view-program-selection<span style="color: #EF6C00;">)</span>
+     <span style="color: #EF6C00;">(</span>add-to-list 'TeX-view-program-selection '<span style="color: #B388FF;">(</span>output-pdf <span style="color: #9ccc65;">"Sumatra PDF"</span><span style="color: #B388FF;">)</span><span style="color: #EF6C00;">)</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
 </pre>
 </div>
 
@@ -317,22 +436,22 @@ PATH를 설정하지 않은 경우에는 절대경로를 설정하면 된다.
 </div>
 </div>
 
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Python 개발</h2>
-<div class="outline-text-2" id="text-3">
-</div><div id="outline-container-sec-3-1" class="outline-3">
-<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Elpy</h3>
-<div class="outline-text-3" id="text-3-1">
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Python 개발</h3>
+<div class="outline-text-3" id="text-2-3">
+</div><div id="outline-container-sec-2-3-1" class="outline-4">
+<h4 id="sec-2-3-1"><span class="section-number-4">2.3.1</span> Elpy</h4>
+<div class="outline-text-4" id="text-2-3-1">
 <p>
 elpy와 py-autopep8을 package로 설치하고 다음 설정을 .emacs에 추가한다.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(elpy-enable)
-(setq elpy-rpc-python-command "python")
-(elpy-use-ipython)
-(require 'py-autopep8)
-(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span>elpy-enable<span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #fff59d;">setq</span> elpy-rpc-python-command <span style="color: #9ccc65;">"python"</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span>elpy-use-ipython<span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #fff59d;">require</span> '<span style="color: #8bc34a;">py-autopep8</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span>add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save<span style="color: #e91e63;">)</span>
 </pre>
 </div>
 <p>
@@ -345,9 +464,9 @@ elpy는 자동 완성 기능을 company를 사용한다.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(global-company-mode)
-(setq company-idle-delay nil)
-(global-set-key (kbd "TAB") #'company-indent-or-complete-common)
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span>global-company-mode<span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #fff59d;">setq</span> company-idle-delay nil<span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span>global-set-key <span style="color: #2196F3;">(</span>kbd <span style="color: #9ccc65;">"TAB"</span><span style="color: #2196F3;">)</span> #'company-indent-or-complete-common<span style="color: #e91e63;">)</span>
 </pre>
 </div>
 <p>
@@ -362,9 +481,9 @@ company는 상황에 따라서 indentation과 complete를 알아서 수행하는
 </div>
 </div>
 
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> 윈도우 환경</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> 윈도우 환경</h3>
+<div class="outline-text-3" id="text-2-4">
 <p>
 Emacs 64-bit 빌드가 <a href="https://sourceforge.net/projects/emacsbinw64/">sourceforge</a> 에서 제공 중인 버전도 있고,
 GNU 공식 홈페이지도 64-bit 버전을 제공하고 있었다.
@@ -372,9 +491,9 @@ GNU 공식 홈페이지도 64-bit 버전을 제공하고 있었다.
 </p>
 </div>
 
-<div id="outline-container-sec-4-1" class="outline-3">
-<h3 id="sec-4-1"><span class="section-number-3">4.1</span> 영문자 외 폰트로 인한 속도 저하</h3>
-<div class="outline-text-3" id="text-4-1">
+<div id="outline-container-sec-2-4-1" class="outline-4">
+<h4 id="sec-2-4-1"><span class="section-number-4">2.4.1</span> 영문자 외 폰트로 인한 속도 저하</h4>
+<div class="outline-text-4" id="text-2-4-1">
 <p>
 리눅스 버전에서는 경험하지 못했던 문제로, 윈도우 버전에서 발생한 문제다.
 영문으로 된 영역에서는 커서 이동이 잘 되다가 한글이 있는 라인으로 갈 경우 속도가 느려지는 것을 관찰했다.
@@ -384,8 +503,8 @@ GNU 공식 홈페이지도 64-bit 버전을 제공하고 있었다.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(set-default-font "Fira Code Retina-13")
-(set-fontset-font "fontset-default" 'korean-ksc5601 "Noto Sans Mono CJK KR-13")
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span>set-default-font <span style="color: #9ccc65;">"Fira Code Retina-13"</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span>set-fontset-font <span style="color: #9ccc65;">"fontset-default"</span> 'korean-ksc5601 <span style="color: #9ccc65;">"Noto Sans Mono CJK KR-13"</span><span style="color: #e91e63;">)</span>
 </pre>
 </div>
 
@@ -397,19 +516,19 @@ GNU 공식 홈페이지도 64-bit 버전을 제공하고 있었다.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(set-default-font "D2Coding-14")
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span>set-default-font <span style="color: #9ccc65;">"D2Coding-14"</span><span style="color: #e91e63;">)</span>
 </pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5"><span class="section-number-2">5</span> 테마</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> 테마</h3>
+<div class="outline-text-3" id="text-2-5">
 <p>
 추천 테마는 material이나 tao-theme다.
-<a href="#MELPA">1.1</a>에서 패키지로 설치할 수 있다.
+<a href="#MELPA">2.1.1</a>에서 패키지로 설치할 수 있다.
 </p>
 
 <p>
@@ -419,12 +538,12 @@ material의 경우 material, tao의 경우 tao-yin을 추천한다.
 </div>
 </div>
 
-<div id="outline-container-sec-6" class="outline-2">
-<h2 id="sec-6"><span class="section-number-2">6</span> Error 발생 시</h2>
-<div class="outline-text-2" id="text-6">
-</div><div id="outline-container-sec-6-1" class="outline-3">
-<h3 id="sec-6-1"><span class="section-number-3">6.1</span> 윈도우 환경에서 Wrong type argument: stringp, nil 발생</h3>
-<div class="outline-text-3" id="text-6-1">
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6"><span class="section-number-3">2.6</span> Error 발생 시</h3>
+<div class="outline-text-3" id="text-2-6">
+</div><div id="outline-container-sec-2-6-1" class="outline-4">
+<h4 id="sec-2-6-1"><span class="section-number-4">2.6.1</span> 윈도우 환경에서 Wrong type argument: stringp, nil 발생</h4>
+<div class="outline-text-4" id="text-2-6-1">
 <p>
 개인적으로는 Clojure + CIDER 환경에서 cider-jack-in이 되지 않을 때 발생했다.
 emacs에서 외부 명령을 실행하려 할 때 발생할 수 있는 문제인데,
@@ -436,12 +555,12 @@ COMSPEC 환경변수를 C:\Windows\System32\cmd.exe로 설정하면 문제가 �
 </div>
 </div>
 
-<div id="outline-container-sec-7" class="outline-2">
-<h2 id="sec-7"><span class="section-number-2">7</span> 기타 팁</h2>
-<div class="outline-text-2" id="text-7">
-</div><div id="outline-container-sec-7-1" class="outline-3">
-<h3 id="sec-7-1"><span class="section-number-3">7.1</span> ido-mode와 새 파일 생성 시 충돌</h3>
-<div class="outline-text-3" id="text-7-1">
+<div id="outline-container-sec-2-7" class="outline-3">
+<h3 id="sec-2-7"><span class="section-number-3">2.7</span> 기타 팁</h3>
+<div class="outline-text-3" id="text-2-7">
+</div><div id="outline-container-sec-2-7-1" class="outline-4">
+<h4 id="sec-2-7-1"><span class="section-number-4">2.7.1</span> ido-mode와 새 파일 생성 시 충돌</h4>
+<div class="outline-text-4" id="text-2-7-1">
 <p>
 ido-mode가 동작 중일 때,
 abc.txt라는 파일을 만들고 싶은데
@@ -462,39 +581,26 @@ C-x C-f C-f를 이용하면 된다.
 </div>
 </div>
 </div>
+</div>
 </div><div class="col-md-3"><nav id="table-of-contents">
 <div id="text-table-of-contents" class="bs-docs-sidebar">
 <ul class="nav">
-<li><a href="#sec-1">1. 패키지</a>
+<li><a href="#sec-1">1. Spacemacs</a>
 <ul class="nav">
-<li><a href="#sec-1-1">1.1. </a></li>
+<li><a href="#sec-1-1">1.1. 설치 관련</a></li>
+<li><a href="#sec-1-2">1.2. Projectile</a></li>
+<li><a href="#sec-1-3">1.3. export</a></li>
 </ul>
 </li>
-<li><a href="#sec-2">2. TeX와의 연동</a>
+<li><a href="#sec-2">2. Vanilla emacs</a>
 <ul class="nav">
-<li><a href="#sec-2-1">2.1. auctex</a></li>
-<li><a href="#sec-2-2">2.2. 윈도우에서 synctex 설정하기</a></li>
-</ul>
-</li>
-<li><a href="#sec-3">3. Python 개발</a>
-<ul class="nav">
-<li><a href="#sec-3-1">3.1. Elpy</a></li>
-</ul>
-</li>
-<li><a href="#sec-4">4. 윈도우 환경</a>
-<ul class="nav">
-<li><a href="#sec-4-1">4.1. 영문자 외 폰트로 인한 속도 저하</a></li>
-</ul>
-</li>
-<li><a href="#sec-5">5. 테마</a></li>
-<li><a href="#sec-6">6. Error 발생 시</a>
-<ul class="nav">
-<li><a href="#sec-6-1">6.1. 윈도우 환경에서 Wrong type argument: stringp, nil 발생</a></li>
-</ul>
-</li>
-<li><a href="#sec-7">7. 기타 팁</a>
-<ul class="nav">
-<li><a href="#sec-7-1">7.1. ido-mode와 새 파일 생성 시 충돌</a></li>
+<li><a href="#sec-2-1">2.1. 패키지</a></li>
+<li><a href="#sec-2-2">2.2. TeX와의 연동</a></li>
+<li><a href="#sec-2-3">2.3. Python 개발</a></li>
+<li><a href="#sec-2-4">2.4. 윈도우 환경</a></li>
+<li><a href="#sec-2-5">2.5. 테마</a></li>
+<li><a href="#sec-2-6">2.6. Error 발생 시</a></li>
+<li><a href="#sec-2-7">2.7. 기타 팁</a></li>
 </ul>
 </li>
 </ul>
@@ -502,9 +608,8 @@ C-x C-f C-f를 이용하면 된다.
 </nav>
 </div></div></div>
 <footer id="postamble" class="">
-<div><p class="author">Author: Jonguk Kim</p>
-<p class="date">Created: 2017-01-24 화 00:40</p>
-<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org-mode</a> 9.0.3)</p>
+<div><p class="date">Created: 2019-01-04 금 11:46</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.3.1 (<a href="http://orgmode.org">Org-mode</a> 9.2)</p>
 </div>
 </footer>
 </body>

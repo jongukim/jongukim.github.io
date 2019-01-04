@@ -1,0 +1,7 @@
+#+TITLE: jongukim's github page
+
+* Tips
+- [[./tips/emacs.html][emacs]]
+- [[./tips/org-mode.html][org-mode]]
+- [[./tips/ssh.html][ssh]]
+

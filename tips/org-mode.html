@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en">
 <head>
-<title>ssh 관련 팁</title>
-<!-- 2019-01-04 금 10:48 -->
+<title>org-mode tips</title>
+<!-- 2019-01-04 금 13:39 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="Org-mode">
@@ -191,39 +191,135 @@ $(function() {
 </head>
 <body>
 <div id="content" class="container">
-<div class="row"><div class="col-md-9"><h1 class="title">ssh 관련 팁</h1>
+<div class="row"><div class="col-md-9"><h1 class="title">org-mode tips</h1>
 
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> sshfs</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> 단축키</h2>
 <div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 제목줄 관련</h3>
+<div class="outline-text-3" id="text-1-1">
 <p>
-sshfs는 다음과 같이 사용하면 원격의 특정 디렉토리를 로컬 디렉토리인 것처럼 사용할 수 있다.
-IdentityFile 옵션을 통해 public key를 지정해줄 수 있다.
+*를 사용하는 제목줄과 관련된 단축키는 다음과 같다.
+</p>
+<ul class="org-ul">
+<li>M-S-{LEFT, RIGHT} : 제목줄의 level을 하나 올리거나 내린다
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Easy template</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+예전에는 &lt;s[TAB]을 하면 #+begin-end src 블록이 생성되고,
+&lt;e[TAB]을 하면 #+begin-end example 블록이 생성됐다.
+이것을 easy template이라고 했다.
+</p>
+
+<p>
+org-mode의 버전이 업데이트되면서 이게 <a href="https://emacs.stackexchange.com/a/19946/21229">바뀐 것 같다</a>.
+단축키 C-c C-,를 통해서 easy template에 접근할 수 있다.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> 링크</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> 외부 링크 (URL)</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+아래와 같은 형태로 입력하면 hyperlink가 생성된다.
 </p>
 
 <pre class="example">
-sshfs -o IdentityFile=/home/[ID]/.ssh/id_rsa.pub [ID]@[ADDR]:/home/[ID]/[Directory]/ [Mount dir]
+[[URL][comment]]
 </pre>
+</div>
+</div>
 
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> 문서 내부 링크</h3>
+<div class="outline-text-3" id="text-3-2">
 <p>
-원격에 ssh로 바로 접속한 후 지정한 디렉토리로 이동하고 싶을 경우 아래와 같이 cd 명령과 bash를 차례로 실행해주면 된다.
+특정 heading 위치에 대해 내부 링크를 걸고 싶을 때가 있다.
+아래와 같은 형태로 헤딩의 이름 앞에 링크의 이름을 지정하고 refer하면 <a href="https://orgmode.org/manual/Internal-links.html#Internal-links">된다</a>.
 </p>
 
 <pre class="example">
-ssh -t [ID]@[ADDR] "cd [Directory]; bash --login"
+&lt;&lt;linkname&gt;&gt;Header Name
+
+[[linkname][comment]]
 </pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Spacemacs와의 이슈</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> org-meta-return 단축키 충돌</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+불릿 형태로 문서를 쓰고 있을 때 다음 불릿으로 넘어가고 싶으면 M-RET를 사용할 수 있다.
+줄 넘김과 함께 새로운 불릿이 자동으로 입력된다.
+편리한 기능이다.
+</p>
+
+<p>
+그런데, spacemacs에서 M-RET를 major-mode로 진입하는 단축키로 사용하기 때문에 충돌이 발생한다.
+다른 키로 바꿀 필요가 있다.
+</p>
+
+<p>
+아래 elisp을 user-config에 추가하면 된다.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-elisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">with-eval-after-load</span> 'org
+  <span style="color: #2196F3;">(</span>org-defkey org-mode-map <span style="color: #EF6C00;">(</span>kbd <span style="color: #9ccc65;">"&lt;C-M-return&gt;"</span><span style="color: #EF6C00;">)</span> 'org-meta-return<span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+
+<p>
+org 모드가 모두 로드된 이후에 키를 지정한다. 
+위의 경우 ctrl-alt-return 조합을 선택했다.
+</p>
+</div>
 </div>
 </div>
 </div><div class="col-md-3"><nav id="table-of-contents">
 <div id="text-table-of-contents" class="bs-docs-sidebar">
 <ul class="nav">
-<li><a href="#sec-1">1. sshfs</a></li>
+<li><a href="#sec-1">1. 단축키</a>
+<ul class="nav">
+<li><a href="#sec-1-1">1.1. 제목줄 관련</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2. Easy template</a></li>
+<li><a href="#sec-3">3. 링크</a>
+<ul class="nav">
+<li><a href="#sec-3-1">3.1. 외부 링크 (URL)</a></li>
+<li><a href="#sec-3-2">3.2. 문서 내부 링크</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4. Spacemacs와의 이슈</a>
+<ul class="nav">
+<li><a href="#sec-4-1">4.1. org-meta-return 단축키 충돌</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </nav>
 </div></div></div>
 <footer id="postamble" class="">
-<div><p class="date">Created: 2019-01-04 금 10:48</p>
+<div><p class="date">Created: 2019-01-04 금 13:39</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.3.1 (<a href="http://orgmode.org">Org-mode</a> 9.2)</p>
 </div>
 </footer>

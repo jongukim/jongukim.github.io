@@ -1,0 +1,55 @@
+#+TITLE: org-mode tips
+
+* 단축키
+
+** 제목줄 관련
+*를 사용하는 제목줄과 관련된 단축키는 다음과 같다.
+- M-S-{LEFT, RIGHT} : 제목줄의 level을 하나 올리거나 내린다
+
+* Easy template
+예전에는 <s[TAB]을 하면 #+begin-end src 블록이 생성되고,
+<e[TAB]을 하면 #+begin-end example 블록이 생성됐다.
+이것을 easy template이라고 했다.
+
+org-mode의 버전이 업데이트되면서 이게 [[https://emacs.stackexchange.com/a/19946/21229][바뀐 것 같다]].
+단축키 C-c C-,를 통해서 easy template에 접근할 수 있다.
+
+* 링크
+
+** 외부 링크 (URL)
+아래와 같은 형태로 입력하면 hyperlink가 생성된다.
+
+#+begin_example
+[[URL][comment]]
+#+end_example
+
+** 문서 내부 링크
+특정 heading 위치에 대해 내부 링크를 걸고 싶을 때가 있다.
+아래와 같은 형태로 헤딩의 이름 앞에 링크의 이름을 지정하고 refer하면 [[https://orgmode.org/manual/Internal-links.html#Internal-links][된다]].
+
+#+begin_example
+<<linkname>>Header Name
+
+[[linkname][comment]]
+#+end_example
+
+* Spacemacs와의 이슈
+
+** org-meta-return 단축키 충돌
+불릿 형태로 문서를 쓰고 있을 때 다음 불릿으로 넘어가고 싶으면 M-RET를 사용할 수 있다.
+줄 넘김과 함께 새로운 불릿이 자동으로 입력된다.
+편리한 기능이다.
+
+그런데, spacemacs에서 M-RET를 major-mode로 진입하는 단축키로 사용하기 때문에 충돌이 발생한다.
+다른 키로 바꿀 필요가 있다.
+
+아래 elisp을 user-config에 추가하면 된다.
+
+#+begin_src elisp
+(with-eval-after-load 'org
+  (org-defkey org-mode-map (kbd "<C-M-return>") 'org-meta-return))
+#+end_src
+
+org 모드가 모두 로드된 이후에 키를 지정한다. 
+위의 경우 ctrl-alt-return 조합을 선택했다.
+
