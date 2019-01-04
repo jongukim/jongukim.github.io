@@ -1,4 +1,5 @@
 #+TITLE: org-mode tips
+#+HTML_HEAD_EXTRA: <style>pre { background-color: #333; color: #ccc; }</style>
 
 * 단축키
 
