@@ -1,7 +1,10 @@
-#+TITLE: jongukim's github page
+#+TITLE: JUKWorks Github IO
+
+* Deep Learning
+- [[./ml/apex.html][NVIDIA apex]]
 
 * Tips
 - [[./tips/emacs.html][emacs]]
 - [[./tips/org-mode.html][org-mode]]
 - [[./tips/ssh.html][ssh]]
-
+- 5-min talks
