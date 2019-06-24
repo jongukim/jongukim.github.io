@@ -1,0 +1,27 @@
+#+TITLE: PyRobot
+
+* Intro
+- Tweet by Yann LeCun
+#+BEGIN_EXPORT html
+<blockquote class="twitter-tweet"><p lang="pl" dir="ltr">PyRobot! <a href="https://t.co/ndXPnxp2ky">https://t.co/ndXPnxp2ky</a></p>&mdash; Yann LeCun (@ylecun) <a href="https://twitter.com/ylecun/status/1141724543171616768?ref_src=twsrc%5Etfw">June 20, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+END_EXPORT
+
+- Tweet by Facebook AI
+#+BEGIN_EXPORT html
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We&#39;re open sourcing PyRobot, a lightweight, high-level interface that lets <a href="https://twitter.com/hashtag/AI?src=hash&amp;ref_src=twsrc%5Etfw">#AI</a> researchers get up and running with <a href="https://twitter.com/hashtag/robotics?src=hash&amp;ref_src=twsrc%5Etfw">#robotics</a> experiments in just hours. No specialized robotics expertise needed! <a href="https://t.co/jZPhg2hdOi">https://t.co/jZPhg2hdOi</a> <a href="https://t.co/Xtnyn0ikib">pic.twitter.com/Xtnyn0ikib</a></p>&mdash; Facebook AI (@facebookai) <a href="https://twitter.com/facebookai/status/1141734722789265410?ref_src=twsrc%5Etfw">June 20, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+END_EXPORT
+- [[https://ai.facebook.com/blog/open-sourcing-pyrobot-to-accelerate-ai-robotics-research/][Blog (introduction)]]
+- [[https://www.pyrobot.org/][Web site]]
+- [[https://github.com/facebookresearch/pyrobot][Github]]
+  + Env : Ubuntu 16.04
+
+* 뭐야? 
+- Facebook이 CMU와 함께 만든 프레임워크 for Robot + AI
+  + PyTorch, Torchvision, ELF 등과 함께 동작
+#+BEGIN_QUOTE
+PyRobot is a lightweight, high-level interface on top of the robot operating system (ROS).
+#+END_QUOTE
+- Open source!
+- 주 타깃 로봇은 현재 [[https://locobot-website.netlify.com/][LoCoBot]] (Open source low cost robot)으로 보임
+- 로봇 분야에서도 dataset, pretrained model, implementation이 공개되고 발전되기를 바란다고
+

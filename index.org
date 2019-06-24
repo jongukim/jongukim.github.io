@@ -7,4 +7,9 @@
 - [[./tips/emacs.html][emacs]]
 - [[./tips/org-mode.html][org-mode]]
 - [[./tips/ssh.html][ssh]]
-- 5-min talks
+
+* Five-minute talks
+- 2019. 6. 21.
+  + [[./five/190621-rice-farming.html][Rice farming robots in Japan]]
+  + [[./five/190621-pyrobot.html][PyRobot by Facebook]]
+  + [[./five/190621-pytorch-hub.html][PyTorch Hub]]

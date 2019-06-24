@@ -1,0 +1,9 @@
+#+TITLE: PyTorch Hub
+
+- Pretrained model repository
+  + BERT, GPT-2, Transformer-XL, Tacotron 2, AlexNet, GoogLeNet, ResNet, vgg-nets, ...
+- Tweet
+#+BEGIN_EXPORT html
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Two new additions to <a href="https://twitter.com/PyTorch?ref_src=twsrc%5Etfw">@PyTorch</a> Hub: Transformer-XL and GPT-2 from <a href="https://twitter.com/huggingface?ref_src=twsrc%5Etfw">@huggingface</a>&#39;s pytorch_pretrained_bert!<br>All of our pytorch_pretrained_bert pre-trained models are now also available through Hub!!<a href="https://t.co/tHzFcKAwvN">pic.twitter.com/tHzFcKAwvN</a></p>&mdash; Victor Sanh (@SanhEstPasMoi) <a href="https://twitter.com/SanhEstPasMoi/status/1141709210977218560?ref_src=twsrc%5Etfw">June 20, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+END_EXPORT
+- [[https://pytorch.org/hub][Web page]]
