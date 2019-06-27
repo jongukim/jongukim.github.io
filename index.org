@@ -21,3 +21,6 @@
   + [[./five/190621-rice-farming.html][Rice farming robots in Japan]]
   + [[./five/190621-pyrobot.html][PyRobot by Facebook]]
   + [[./five/190621-pytorch-hub.html][PyTorch Hub]]
+
+* Fun
+- [[./fun/github-goals.html][Github goals]]
