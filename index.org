@@ -9,6 +9,10 @@
 - [[./tips/ssh.html][ssh]]
 
 * Five-minute talks
+날짜 : 정보 수집 시점
+
+- 2019. 6. 27.
+  + [[./five/190627-duck-or-rabbit.html][Duck or Rabbit]]
 
 - 2019. 6. 26.
   + [[./five/190626-taiwan-flag.html][Taiwan flag and Unicode]]

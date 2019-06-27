@@ -1,0 +1,9 @@
+#+TITLE: Duck or Rabbit
+
+- Google Cloud Vision API를 이용한 오리/토끼 classification 수행
+
+#+HTML: <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Does AI think this is a duck or a rabbit? <a href="https://t.co/YQ07nNuyn6">https://t.co/YQ07nNuyn6</a> <a href="https://t.co/gnegEPJJbV">pic.twitter.com/gnegEPJJbV</a></p>&mdash; Adam J Calhoun (@neuroecology) <a href="https://twitter.com/neuroecology/status/1103761156295004160?ref_src=twsrc%5Etfw">March 7, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+- 애매한 경우 확률이 양쪽 모두 0에 가깝게 처리 됨
+  + Classification 모델에서 outlier는 어려운 문제
+
