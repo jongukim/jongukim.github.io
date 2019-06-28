@@ -1,14 +1,14 @@
 #+TITLE: NVIDIA Apex
 #+OPTIONS: ^:nil
 
-Mixed precisionÀ» Æí¸®ÇÏ°Ô »ç¿ëÇÒ ¼ö ÀÖ´Â apex.amp¿Í º´·ÄÃ³¸®¸¦ ÆíÇÏ°Ô ÇÒ ¼ö ÀÖ´Â apex.parallel·Î ±¸¼º.
-ÇöÀç ¹öÀüÀº 0.1ÀÌ¸ç, [[https://nvidia.github.io/apex/amp.html][¹®¼­]]µµ Á¦°ø Áß.
+Mixed precisionì„ íŽ¸ë¦¬í•˜ê²Œ ì‚¬ìš©í•  ìˆ˜ ìžˆëŠ” apex.ampì™€ ë³‘ë ¬ì²˜ë¦¬ë¥¼ íŽ¸í•˜ê²Œ í•  ìˆ˜ ìžˆëŠ” apex.parallelë¡œ êµ¬ì„±.
+í˜„ìž¬ ë²„ì „ì€ 0.1ì´ë©°, [[https://nvidia.github.io/apex/amp.html][ë¬¸ì„œ]]ë„ ì œê³µ ì¤‘.
 
 * apex.amp
 
-¸î ÁÙ¸¸ Ãß°¡ÇÏ¸é FP16À» ½±°Ô È°¿ëÇÒ¼ö ÀÖ´Ù.
+ëª‡ ì¤„ë§Œ ì¶”ê°€í•˜ë©´ FP16ì„ ì‰½ê²Œ í™œìš©í• ìˆ˜ ìžˆë‹¤.
 
-** model°ú optimizer
+** modelê³¼ optimizer
 
 #+BEGIN_SRC python
 from apex import amp
@@ -18,8 +18,8 @@ optimizer = ...
 model, optimizer = amp.initialize(model, optimizer, opt_level="O2")
 #+END_SRC
 
-À§¿Í °°ÀÌ ¸ðµ¨°ú optimizer¸¦ ¼±¾ðÇÑ ÈÄ amp.initialize·Î ÇÑ ¹ø °¨½ÎÁÖ¸é ³¡.
-optlevelÀº O0 ~ O3°¡ ÀÖ´Ù.
+ìœ„ì™€ ê°™ì´ ëª¨ë¸ê³¼ optimizerë¥¼ ì„ ì–¸í•œ í›„ amp.initializeë¡œ í•œ ë²ˆ ê°ì‹¸ì£¼ë©´ ë.
+optlevelì€ O0 ~ O3ê°€ ìžˆë‹¤.
 
 - O0: FP32
 - O1: Mixed precision
@@ -28,8 +28,8 @@ optlevelÀº O0 ~ O3°¡ ÀÖ´Ù.
 
 ** loss.backward()
 
-º¯°æÇÒ °ÍÀÌ ÇÏ³ª ´õ ÀÖ´Ù.
-loss.backward() ÄÚµå¸¦ ´ÙÀ½°ú °°ÀÌ ¹Ù²ãÁÖ¸é µÈ´Ù.
+ë³€ê²½í•  ê²ƒì´ í•˜ë‚˜ ë” ìžˆë‹¤.
+loss.backward() ì½”ë“œë¥¼ ë‹¤ìŒê³¼ ê°™ì´ ë°”ê¿”ì£¼ë©´ ëœë‹¤.
 
 #+BEGIN_SRC python
 with amp.scale_loss(loss, optimizer) as scaled_loss:
@@ -38,36 +38,36 @@ with amp.scale_loss(loss, optimizer) as scaled_loss:
 
 * apex.parallel
 
-ÇöÀç ³» È¯°æÀº ½Ì±Û ³ëµå multi-GPU´Ù.
-½Ì±Û ³ëµå¿¡¼­µµ DataParallelº¸´Ù DistributedDataParallel(DDP)À» »ç¿ëÇÏ´Â °ÍÀÌ multi-GPU¸¦ È¿À²ÀûÀ¸·Î »ç¿ëÇÒ ¼ö ÀÖ´Ù°í ¹®¼­¿¡ ±â¼úµÇ¾î ÀÖ´Ù.
-DDP¸¦ »ç¿ëÇÏ·Á¸é ÄÚµå¸¦ Á¦¹ý °íÃÄ¾ß ÇÏ´Âµ¥, apex´Â Á¶±Ý ´õ wrappingµÈ DPP¸¦ Á¦°øÇÑ´Ù.
+í˜„ìž¬ ë‚´ í™˜ê²½ì€ ì‹±ê¸€ ë…¸ë“œ multi-GPUë‹¤.
+ì‹±ê¸€ ë…¸ë“œì—ì„œë„ DataParallelë³´ë‹¤ DistributedDataParallel(DDP)ì„ ì‚¬ìš©í•˜ëŠ” ê²ƒì´ multi-GPUë¥¼ íš¨ìœ¨ì ìœ¼ë¡œ ì‚¬ìš©í•  ìˆ˜ ìžˆë‹¤ê³  ë¬¸ì„œì— ê¸°ìˆ ë˜ì–´ ìžˆë‹¤.
+DDPë¥¼ ì‚¬ìš©í•˜ë ¤ë©´ ì½”ë“œë¥¼ ì œë²• ê³ ì³ì•¼ í•˜ëŠ”ë°, apexëŠ” ì¡°ê¸ˆ ë” wrappingëœ DPPë¥¼ ì œê³µí•œë‹¤.
 
-** ¸ðµ¨ ºÎºÐ
+** ëª¨ë¸ ë¶€ë¶„
 
-DataParallelÀ» »ç¿ëÇÒ ¶§¿Í ¸¶Âù°¡Áö·Î ´ÙÀ½°ú °°ÀÌ ¸ðµ¨À» °¨½ÎÁÖ¸é ¸ðµ¨¿¡ ´ëÇÑ º´·ÄÃ³¸®°¡ °¡´ÉÇÏµµ·Ï ÇØÁØ´Ù.
+DataParallelì„ ì‚¬ìš©í•  ë•Œì™€ ë§ˆì°¬ê°€ì§€ë¡œ ë‹¤ìŒê³¼ ê°™ì´ ëª¨ë¸ì„ ê°ì‹¸ì£¼ë©´ ëª¨ë¸ì— ëŒ€í•œ ë³‘ë ¬ì²˜ë¦¬ê°€ ê°€ëŠ¥í•˜ë„ë¡ í•´ì¤€ë‹¤.
 #+BEGIN_SRC python
 from apex.parallel import DistributedDataParallel as DDP
 
 model = DDP(model, delay_allreduce=True)
 #+END_SRC
 
-delay_allreduce´Â ±âº»ÀûÀ¸·Î FalseÀÎµ¥, ¸¹Àº ¿¹Á¦¿¡¼­ True·Î ¼³Á¤ÇÏ°í ÀÖ¾î¼­ ±×³É µû¶óÇß´Ù.
+delay_allreduceëŠ” ê¸°ë³¸ì ìœ¼ë¡œ Falseì¸ë°, ë§Žì€ ì˜ˆì œì—ì„œ Trueë¡œ ì„¤ì •í•˜ê³  ìžˆì–´ì„œ ê·¸ëƒ¥ ë”°ë¼í–ˆë‹¤.
 
-ÇÐ½ÀÀ» ½ÇÇàÇÏ´Â ÆÄÀÌ½ã ½ºÅ©¸³Æ®¿¡´Â º¯°æÀÌ Á¶±Ý ÇÊ¿äÇÏ´Ù.
-DDP´Â torch.distributed.launch ¸ðµâÀ» ÅëÇØ multi-process·Î ½ÇÇàÇÑ´Ù.
-½ÇÇà ¸í··¾î´Â ´ÙÀ½°ú °°Àº ÇüÅÂÀÌ´Ù.
+í•™ìŠµì„ ì‹¤í–‰í•˜ëŠ” íŒŒì´ì¬ ìŠ¤í¬ë¦½íŠ¸ì—ëŠ” ë³€ê²½ì´ ì¡°ê¸ˆ í•„ìš”í•˜ë‹¤.
+DDPëŠ” torch.distributed.launch ëª¨ë“ˆì„ í†µí•´ multi-processë¡œ ì‹¤í–‰í•œë‹¤.
+ì‹¤í–‰ ëª…ë ì–´ëŠ” ë‹¤ìŒê³¼ ê°™ì€ í˜•íƒœì´ë‹¤.
 
-** ½ÇÇà ½ºÅ©¸³Æ®
+** ì‹¤í–‰ ìŠ¤í¬ë¦½íŠ¸
 
 #+BEGIN_SRC shell
 python3 -m torch.distributed.launch --nproc_per_node=6 train.py ...
 #+END_SRC
 
---nproc_per_node´Â ·ÎÄÃ ¸Ó½Å¿¡ ÀÖ´Â GPU °³¼ö¸¦ Àü´ÞÇÏ¸é µÈ´Ù.
-³ª´Â 6°³ÀÇ V100 GPU¸¦ °¡Áö°í ÀÖ´Ù.
+--nproc_per_nodeëŠ” ë¡œì»¬ ë¨¸ì‹ ì— ìžˆëŠ” GPU ê°œìˆ˜ë¥¼ ì „ë‹¬í•˜ë©´ ëœë‹¤.
+ë‚˜ëŠ” 6ê°œì˜ V100 GPUë¥¼ ê°€ì§€ê³  ìžˆë‹¤.
 
-À§¿Í °°ÀÌ ¸í·É¾î¸¦ ½ÇÇàÇÏ¸é ÀÚµ¿À¸·Î ¿©·¯ °³ÀÇ train.py ÇÁ·Î¼¼½º°¡ »ý»ýµÇ´Âµ¥ --local_rank¶ó´Â ÀÎÀÚ¸¦ ÀÚµ¿À¸·Î ºÙ¿©¼­ ½ÇÇàÇÏ°Ô µÈ´Ù.
-µû¶ó¼­ train.py ½ºÅ©¸³Æ®´Â ´ÙÀ½°ú °°ÀÌ --local_rank ÀÎÀÚ¸¦ ¹Þ¾Æ¾ß ÇÑ´Ù.
+ìœ„ì™€ ê°™ì´ ëª…ë ¹ì–´ë¥¼ ì‹¤í–‰í•˜ë©´ ìžë™ìœ¼ë¡œ ì—¬ëŸ¬ ê°œì˜ train.py í”„ë¡œì„¸ìŠ¤ê°€ ìƒìƒë˜ëŠ”ë° --local_rankë¼ëŠ” ì¸ìžë¥¼ ìžë™ìœ¼ë¡œ ë¶™ì—¬ì„œ ì‹¤í–‰í•˜ê²Œ ëœë‹¤.
+ë”°ë¼ì„œ train.py ìŠ¤í¬ë¦½íŠ¸ëŠ” ë‹¤ìŒê³¼ ê°™ì´ --local_rank ì¸ìžë¥¼ ë°›ì•„ì•¼ í•œë‹¤.
 
 #+BEGIN_SRC python
 import argparse
@@ -79,22 +79,22 @@ args = parser.parse_args()
 rank = args.local_rank
 #+END_SRC
 
-±×¸®°í °¢ ½ºÅ©¸³Æ®°¡ ³Ñ°Ü¹ÞÀº ÀÎÀÚ¿¡ µû¶ó GPU¸¦ »ç¿ëÇÏµµ·Ï ¾Æ·¡¿Í °°ÀÌ ¼³Á¤ÇÑ´Ù.
+ê·¸ë¦¬ê³  ê° ìŠ¤í¬ë¦½íŠ¸ê°€ ë„˜ê²¨ë°›ì€ ì¸ìžì— ë”°ë¼ GPUë¥¼ ì‚¬ìš©í•˜ë„ë¡ ì•„ëž˜ì™€ ê°™ì´ ì„¤ì •í•œë‹¤.
 #+BEGIN_SRC python
 torch.cuda.set_device(rank)
 #+END_SRC
 
-GPU°£ Åë½ÅÀº NCCLÀ» »ç¿ëÇÏµµ·Ï ÇÑ´Ù.
+GPUê°„ í†µì‹ ì€ NCCLì„ ì‚¬ìš©í•˜ë„ë¡ í•œë‹¤.
 #+BEGIN_SRC python
 import torch.distributed as dist
 
 dist.init_process_group(backend="nccl")
 #+END_SRC
 
-** DataLoader¿Í DistributedSampler
+** DataLoaderì™€ DistributedSampler
 
-¶Ç ÇÏ³ª º¯°æÇØÁÖ¾î¾ß ÇÏ´Â °ÍÀº DataLoader ºÎºÐÀÌ´Ù.
-ºÐ»ê ½ºÅ©¸³Æ®°¡ µ¥ÀÌÅÍ¸¦ ³ª´©¾î ·ÎµåÇÒ ¼ö ÀÖµµ·Ï Sampler·Î °¨½ÎÁØ´Ù.
+ë˜ í•˜ë‚˜ ë³€ê²½í•´ì£¼ì–´ì•¼ í•˜ëŠ” ê²ƒì€ DataLoader ë¶€ë¶„ì´ë‹¤.
+ë¶„ì‚° ìŠ¤í¬ë¦½íŠ¸ê°€ ë°ì´í„°ë¥¼ ë‚˜ëˆ„ì–´ ë¡œë“œí•  ìˆ˜ ìžˆë„ë¡ Samplerë¡œ ê°ì‹¸ì¤€ë‹¤.
 
 #+BEGIN_SRC python
 from torch.utils.data import DataLoader
@@ -105,24 +105,24 @@ samper = DistributedSampler(dataset)
 data_loader = DataLoader(dataset, sampler=sampler, ...)
 #+END_SRC
 
-datasetÀº º»·¡ CPU ÇÐ½ÀÀÌ³ª ´ÜÀÏ GPU »ç¿ë ½Ã¿Í ¸¶Âù°¡Áö·Î  torch.utils.data.DatasetÀ» »ó¼Ó ¹ÞÀº ÀÎ½ºÅÏ½º¸¦ »ç¿ëÇÏ¸é µÈ´Ù.
-DataLoader¿¡´Â num_workers¸¦ ÁöÁ¤ÇØÁÖ´Â °Íµµ ¼Óµµ °³¼±ÀÌ µµ¿òÀÌ µÇ¾ú´Ù.
+datasetì€ ë³¸ëž˜ CPU í•™ìŠµì´ë‚˜ ë‹¨ì¼ GPU ì‚¬ìš© ì‹œì™€ ë§ˆì°¬ê°€ì§€ë¡œ  torch.utils.data.Datasetì„ ìƒì† ë°›ì€ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ì‚¬ìš©í•˜ë©´ ëœë‹¤.
+DataLoaderì—ëŠ” num_workersë¥¼ ì§€ì •í•´ì£¼ëŠ” ê²ƒë„ ì†ë„ ê°œì„ ì´ ë„ì›€ì´ ë˜ì—ˆë‹¤.
 
 ** Logging
 
-¿©·¯ ½ºÅ©¸³Æ®°¡ ½ÇÇàµÇ±â ¶§¹®¿¡ ·Î±× Ãâ·Â ÄÚµå¸¦ ±×´ë·Î »ç¿ëÇÏ¸é Ãâ·ÂÀÌ Áßº¹µÈ´Ù.
+ì—¬ëŸ¬ ìŠ¤í¬ë¦½íŠ¸ê°€ ì‹¤í–‰ë˜ê¸° ë•Œë¬¸ì— ë¡œê·¸ ì¶œë ¥ ì½”ë“œë¥¼ ê·¸ëŒ€ë¡œ ì‚¬ìš©í•˜ë©´ ì¶œë ¥ì´ ì¤‘ë³µëœë‹¤.
 
 #+BEGIN_SRC python
 if rank == 0:
   logger.info(...)
 #+END_SRC
 
-À§¿Í °°Àº ÇüÅÂ·Î rank°¡ 0ÀÏ ¶§¸¸ Ãâ·ÂÇÏ¸é µÈ´Ù.
+ìœ„ì™€ ê°™ì€ í˜•íƒœë¡œ rankê°€ 0ì¼ ë•Œë§Œ ì¶œë ¥í•˜ë©´ ëœë‹¤.
 
 ** Model saving/loading
 
-¸¶Âù°¡Áö·Î ¸ðµ¨ ÀúÀåµµ rank°¡ 0ÀÏ ¶§¸¸ Ã³¸®ÇÏ¸é µÈ´Ù.
-±×¸®°í ÇöÀç ¸ðµ¨ÀÌ DDP·Î ÇÑ ¹ø °¨½ÎÁ® ÀÖÀ¸¹Ç·Î ¸¸¾à multi-GPU°¡ ¾Æ´Ñ ´Ù¸¥ È¯°æ¿¡¼­ weights¸¦ ·ÎµåÇÏ°í ½Í´Ù¸é,
+ë§ˆì°¬ê°€ì§€ë¡œ ëª¨ë¸ ì €ìž¥ë„ rankê°€ 0ì¼ ë•Œë§Œ ì²˜ë¦¬í•˜ë©´ ëœë‹¤.
+ê·¸ë¦¬ê³  í˜„ìž¬ ëª¨ë¸ì´ DDPë¡œ í•œ ë²ˆ ê°ì‹¸ì ¸ ìžˆìœ¼ë¯€ë¡œ ë§Œì•½ multi-GPUê°€ ì•„ë‹Œ ë‹¤ë¥¸ í™˜ê²½ì—ì„œ weightsë¥¼ ë¡œë“œí•˜ê³  ì‹¶ë‹¤ë©´,
 
 #+BEGIN_SRC python
 torch.save({"model": model.state_dict(),
@@ -130,4 +130,4 @@ torch.save({"model": model.state_dict(),
 	    "optim": optimizer.state_dict()})
 #+END_SRC
 
-¿Í °°ÀÌ ÀúÀåÇØ¼­ model°ú optimÀº ÇÐ½ÀÀ» ÀÌ¾î°¥ ¶§³ª multi-GPU È¯°æ¿¡¼­ inferenceÇÒ ¶§ »ç¿ëÇÏ°í, CPU³ª ´ÜÀÏ GPU È¯°æ¿¡¼­ »ç¿ëÇÒ ¶§´Â params¸¦ ·ÎµåÇÏ¿© »ç¿ëÇÏ¸é µÈ´Ù.
+ì™€ ê°™ì´ ì €ìž¥í•´ì„œ modelê³¼ optimì€ í•™ìŠµì„ ì´ì–´ê°ˆ ë•Œë‚˜ multi-GPU í™˜ê²½ì—ì„œ inferenceí•  ë•Œ ì‚¬ìš©í•˜ê³ , CPUë‚˜ ë‹¨ì¼ GPU í™˜ê²½ì—ì„œ ì‚¬ìš©í•  ë•ŒëŠ” paramsë¥¼ ë¡œë“œí•˜ì—¬ ì‚¬ìš©í•˜ë©´ ëœë‹¤.

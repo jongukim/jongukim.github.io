@@ -15,13 +15,13 @@
 - [[https://github.com/facebookresearch/pyrobot][Github]]
   + Env : Ubuntu 16.04
 
-* ¹¹¾ß? 
-- FacebookÀÌ CMU¿Í ÇÔ²² ¸¸µç ÇÁ·¹ÀÓ¿öÅ© for Robot + AI
-  + PyTorch, Torchvision, ELF µî°ú ÇÔ²² µ¿ÀÛ
+* ë­ì•¼? 
+- Facebookì´ CMUì™€ í•¨ê»˜ ë§Œë“  í”„ë ˆì„ì›Œí¬ for Robot + AI
+  + PyTorch, Torchvision, ELF ë“±ê³¼ í•¨ê»˜ ë™ì‘
 #+BEGIN_QUOTE
 PyRobot is a lightweight, high-level interface on top of the robot operating system (ROS).
 #+END_QUOTE
 - Open source!
-- ÁÖ Å¸±ê ·Îº¿Àº ÇöÀç [[https://locobot-website.netlify.com/][LoCoBot]] (Open source low cost robot)À¸·Î º¸ÀÓ
-- ·Îº¿ ºĞ¾ß¿¡¼­µµ dataset, pretrained model, implementationÀÌ °ø°³µÇ°í ¹ßÀüµÇ±â¸¦ ¹Ù¶õ´Ù°í
+- ì£¼ íƒ€ê¹ƒ ë¡œë´‡ì€ í˜„ì¬ [[https://locobot-website.netlify.com/][LoCoBot]] (Open source low cost robot)ìœ¼ë¡œ ë³´ì„
+- ë¡œë´‡ ë¶„ì•¼ì—ì„œë„ dataset, pretrained model, implementationì´ ê³µê°œë˜ê³  ë°œì „ë˜ê¸°ë¥¼ ë°”ë€ë‹¤ê³ 
 

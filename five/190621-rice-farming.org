@@ -1,6 +1,6 @@
 #+TITLE: Rice farming robots in Japan
 
-- ¹°À» Èå¸®°Ô ¸¸µé¾î ÀâÃÊÀÇ ±¤ÇÕ¼ºÀ» ¹æÇØÇÑ´Ù?
+- ë¬¼ì„ íë¦¬ê²Œ ë§Œë“¤ì–´ ì¡ì´ˆì˜ ê´‘í•©ì„±ì„ ë°©í•´í•œë‹¤?
 
 #+BEGIN_EXPORT html
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Rice farming robots in Japan <a href="https://t.co/klaRHlgmpp">https://t.co/klaRHlgmpp</a></p>&mdash; hardmaru (@hardmaru) <a href="https://twitter.com/hardmaru/status/1141847296210087938?ref_src=twsrc%5Etfw">June 20, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
