@@ -1,208 +1,149 @@
 #+TITLE: emacs tips
 #+HTML_HEAD_EXTRA: <style>pre { background-color: #333; color: #ccc; }</style>
 
-* Spacemacs
-emacs user에게 Spacemacs는 emacs의 복잡한 설정을 간단히 처리해주는 wrapper 정도로 볼 수 있다.
-"emacs 설정이 복잡하다고?"라고 의문을 가지는 고수는 그냥 [[vanilla-emacs][Vanilla emacs]]를 사용하면서 직접 설정하는 편이 낫다.
+* 패키지
+** <<MELPA>>
 
-다음의 경우 spacemacs가 좋다.
-- 본래 vim 사용자인데 emacs가 써보고 싶다.
-- emacs를 쓰긴 하지만 customizing을 열심히 하지 않는 편이고, 설정이 귀찮다.
+MELPA는 다양한 패키지를 제공하고 있다.
+.emacs에 다음 코드를 추가하면 된다.
+stable version을 제공하는 repository도 있으나 가끔 없는 패키지가 있다.
+MELPA 패키지를 그대로 사용하는 것을 추천한다.
+단, 가끔 오류가 있는 최신 버전이 업로드 되는 경우가 있다.
 
-emacs는 control, alt, shift 등의 key를 복잡하게 조합해서 여러 명령을 빠르게 접근하는 방식이라면,
-vim은 command mode와 editing mode가 별도로 존재하는 방식인데,
-spacemacs를 사용하면 마치 vim을 사용하듯 command mode와 editing mode를 나눠서 emacs를 사용할 수 있다.
-단축키도 기본적으로 vim과 유사하게 설정되어 있는 것으로 알고 있다.
-이름 그대로 명령의 시작은 space key로 시작한다.
-개인적으로 emacs user이기 때문에 vim mode에 대해서는 잘 모른다.
+#+BEGIN_SRC emacs-lisp
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+(package-initialize)
+(when (not package-archive-contents)
+  (package-refresh-contents))
+#+END_SRC
 
+윈도우 환경에서 SSL(TLS) 관련 오류가 날 때가 있다.
+https 대신에 http로 접속하면 우선 사용은 가능하다.
 
-설치 방법은 [[http://spacemacs.org/][spacemacs 홈페이지]]에 나와있는데 보면 알겠지만 git clone으로 ~/.emacs.d/를 내려 받는 것이다.
-즉, emacs는 이미 설치가 되어 있는 상태여야 한다.
-본래 emacs를 사용하고 있었다면 .emacs.d 디렉토리를 지우고 설치하면 된다.
-다시 말하지만 xemacs 등과 같이 별도의 emacs 배포판이 아니라 설정을 도와주는 것이다.
+* TeX와의 연동
 
-** 설치 관련
-*** 윈도우에서의 설치
- git clone으로 설치하기 때문에 git을 미리 설치해야 한다.
- 그리고 환경 변수 HOME을 자신의 홈 디렉토리를 설정한다. 예를 들면, c:/Users/yourname가 될 것이다.
- 설치 방법은 다른 운영체제와 동일하지만 윈도우에서는 쉘에서 ~를 홈 디렉토리로 인식하지 않으니 다음과 같이 ~/.emacs.d를 .emacs.d로 바꾸고 홈 디렉토리에서 실행하면 된다.
+** auctex
 
- #+BEGIN_EXAMPLE
- git clone https://github.com/syl20bnr/spacemacs .emacs.d
- #+END_EXAMPLE
+auctex는 gnu가 기본으로 제공하는 repository에 있다.
+texlive는 별도로 설치해야 한다.
 
-** Projectile
-*** projectile-find-file (M-RET p f)에서의 오류
- current directory를 찾기 못하면서 파일 탐색이 안되는 경우가 있다.
- 개인적으로는 github desktop을 이용해서 clone한 디렉토리에서 문제가 발생했다.
- git submodule 관련인 것으로 [[https://github.com/bbatsov/projectile/issues/1302][보인다]].
+** 윈도우에서 synctex 설정하기
 
- .spacemacs의 user-config에 (setq projectile-git-submodule-command nil)를 추가하면 문제가 해결된다.
+.emacs에 아래와 같은 설정을 추가한다.
+기본으로 PDF로 출력하고 synctex를 설정하는 코드이다.
+PDF viewer는 [[https://www.sumatrapdfreader.org/free-pdf-reader.html][SumatraPDF]] 를 사용한다.
+무료다.
+Adobe Reader와 같은 유명한 viewer를 사용하지 않고 SumatraPDF를 사용하는 이유는
+현재 열려 있는 파일에 수정을 가했을 때 변경 사항을 바로 적용해주기 때문이다.
 
-** export
-*** Twitter bootstrap
-org-mode가 가지고 있는 기본 html export는 너무 기본적인 디자인으로 출력된다.
-layer 설정에서 org 대신에 (org :variables org-enable-bootstrap-support t)를 사용하면 twitter bootstrap을 사용해서 html 파일로 출력할 수 있다.
+#+BEGIN_SRC emacs-lisp
+(setq TeX-PDF-mode t)
+(setq TeX-source-correlate-mode t)
+(setq TeX-source-correlate-method 'synctex)
+(setq TeX-source-correlate-start-server t)
+(setq TeX-view-program-list
+   '(("Sumatra PDF" ("\"C:/Program Files/SumatraPDF/SumatraPDF.exe\" -reuse-instance"
+                      (mode-io-correlate " -forward-search %b %n ") " %o"))))
+(eval-after-load 'tex
+  '(progn
+     (assq-delete-all 'output-pdf TeX-view-program-selection)
+     (add-to-list 'TeX-view-program-selection '(output-pdf "Sumatra PDF"))))
+#+END_SRC
 
-**** Source code 출력 시 syntax highlight 색상 문제
-org에서 SRC 블록을 이용해서 소스코드를 포함하면 twitter bootstrap으로 출력 시 자동으로 syntax highlight가 됐다.
-단, 하이라이트의 색상이 현재 사용 중인 테마를 따르는 것으로 보인다.
-개인적으로 어두운 배경을 가진 이멕스 테마(material)를 사용 중이다.
-따라서 글자가 밝은 색으로 하이라이트 되는데, html 출력 시 배경은 밝은 색이라 글자가 잘 보이지 않았다.
+위와 같이 설정한 후,
+emacs에서 C-c C-v를 입력하면 현재 커서가 있는 소스코드에 해당하는 PDF 페이지로 SumatraPDF가 이동한다.
 
-다음 선언을 파일 가장 위에서 해주면 BEGIN-END 블록에서의 배경색과 글자색을 어둡게 [[http://clubctrl.com/org/prog/source.html][지정]]할 수 있다.
+역으로, SumatraPDF에서 특정 영역을 더블 클릭하면 해당 소스코드(.tex) 위치로
+emacs의 커서가 이동하게 만들 수 있는데 아래 내용을 SumatraPDF의 설정 \rightarrow 옵션에서
+"명령줄 역방향 탐색 설정"에 입력하면 된다.
 
-#+BEGIN_EXAMPLE
-#+HTML_HEAD_EXTRA: <style>pre { background-color: #333; color: #ccc; }</style>
-#+END_EXAMPLE
+#+BEGIN_QUOTE
+emacsclientw --no-wait +%l "%f"
+#+END_QUOTE
 
+위와 같이 상대경로로만 실행하려면 당연히 emacsclientw가 바로 실행될 수 있도록 윈도우 PATH에 emacs의 bin 폴더가 추가되어 있어야 한다.
+PATH를 설정하지 않은 경우에는 절대경로를 설정하면 된다.
 
+* Python 개발
+** Elpy
 
-* <<vanilla-emacs>>Vanilla emacs
-기본 emacs에 대한 팁을 정리한다.
+elpy는 MELPA package로 간단히 설치할 수 있다.
 
-** 패키지
-*** <<MELPA>>
- MELPA는 다양한 패키지를 제공하고 있다.
- .emacs에 다음 코드를 추가하면 된다.
- stable version을 제공하는 repository도 있으나 가끔 없는 패키지가 있다.
- MELPA 패키지를 그대로 사용하는 것을 추천한다.
- 단, 가끔 오류가 있는 최신 버전이 업로드 되는 경우가 있다.
+#+BEGIN_SRC emacs-lisp
+(elpy-enable)
+(setq elpy-rpc-python-command "python")
+#+END_SRC
 
- #+BEGIN_SRC emacs-lisp no-theme-inherit
- (require 'package)
- (add-to-list 'package-archives
-              '("melpa" . "https://melpa.org/packages/"))
- (package-initialize)
- (when (not package-archive-contents)
-   (package-refresh-contents))
- #+END_SRC
+elpy-run-python-command는 내가 주로 사용하는 python 실행파일을 지정해주면 된다.
+python3, python3.7 등.
 
- 윈도우 환경에서는 SSL(TLS) 관련 오류가 나기도 한다.
- https 대신에 http로 접속하면 우선 사용은 가능하다.
- 리눅스 환경에서는 이와 같은 오류를 본 적은 없다.
+그리고 파이썬 파일을 저장할 때 자동으로 formatting 하기 원한다면 아래 코드를 추가하면 된다.
+아래는 black을 통해 코드 formatting을 하는 것이고 yapf를 원한다면 yapf 관련 함수로 변경하면 된다.
 
-** TeX와의 연동
-*** auctex
- auctex는 gnu가 기본으로 제공하는 repository에 있다.
- texlive는 별도로 설치해야 한다.
+#+BEGIN_SRC emacs-lisp
+(add-hook 'elpy-mode-hook
+          (function (lambda ()
+                      (add-hook 'before-save-hook
+                                elpy-black-fix-code))))
+#+END_SRC
 
-*** 윈도우에서 synctex 설정하기
- .emacs에 아래와 같은 설정을 추가한다.
- 기본으로 PDF로 출력하고 synctex를 설정하는 코드이다.
- PDF viewer는 [[https://www.sumatrapdfreader.org/free-pdf-reader.html][SumatraPDF]] 를 사용한다.
- 무료다.
- Adobe Reader와 같은 유명한 viewer를 사용하지 않고 SumatraPDF를 사용하는 이유는
- 현재 열려 있는 파일에 수정을 가했을 때 변경 사항을 바로 적용해주기 때문이다.
-
- #+BEGIN_SRC emacs-lisp
- (setq TeX-PDF-mode t)
- (setq TeX-source-correlate-mode t)
- (setq TeX-source-correlate-method 'synctex)
- (setq TeX-source-correlate-start-server t)
- (setq TeX-view-program-list
-    '(("Sumatra PDF" ("\"C:/Program Files/SumatraPDF/SumatraPDF.exe\" -reuse-instance"
-                       (mode-io-correlate " -forward-search %b %n ") " %o"))))
- (eval-after-load 'tex
-   '(progn
-      (assq-delete-all 'output-pdf TeX-view-program-selection)
-      (add-to-list 'TeX-view-program-selection '(output-pdf "Sumatra PDF"))))
- #+END_SRC
-
- 위와 같이 설정한 후,
- emacs에서 C-c C-v를 입력하면 현재 커서가 있는 소스코드에 해당하는 PDF 페이지로 SumatraPDF가 이동한다.
-
- 역으로, SumatraPDF에서 특정 영역을 더블 클릭하면 해당 소스코드(.tex) 위치로
- emacs의 커서가 이동하게 만들 수 있는데 아래 내용을 SumatraPDF의 설정 \rightarrow 옵션에서
- "명령줄 역방향 탐색 설정"에 입력하면 된다.
- #+BEGIN_QUOTE
- emacsclientw --no-wait +%l "%f"
- #+END_QUOTE
-
- 위와 같이 상대경로로만 실행하려면 당연히 emacsclientw가 바로 실행될 수 있도록 윈도우 PATH에 emacs의 bin 폴더가 추가되어 있어야 한다.
- PATH를 설정하지 않은 경우에는 절대경로를 설정하면 된다.
-
-** Python 개발
-*** Elpy
- elpy와 py-autopep8을 package로 설치하고 다음 설정을 .emacs에 추가한다.
- #+BEGIN_SRC emacs-lisp
- (elpy-enable)
- (setq elpy-rpc-python-command "python")
- (elpy-use-ipython)
- (require 'py-autopep8)
- (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
- #+END_SRC
- elpy는 RPC로 python interpreter와 교신할 수 있다. 사용할 명령어를 지정하면 된다.
- ipython을 사용하고 저장할 때마다 pep8 점검을 수행한다.
-
- elpy는 자동 완성 기능을 company를 사용한다.
- #+BEGIN_SRC emacs-lisp
- (global-company-mode)
- (setq company-idle-delay nil)
- (global-set-key (kbd "TAB") #'company-indent-or-complete-common)
- #+END_SRC
- global-company-mode를 지정하면 어떤 buffer에서든 company를 사용할 수 있다.
- 그리고 자동으로 팝업을 띄워주는 대신 tab을 눌렀을 때만 완성하게 하는 설정이다.
- company는 기본적으로 M-TAB이 complete를 위한 키인데,
- 윈도우에서는 alt-tab을 누르면 창이 전환되므로 다른 키로 바인딩하는 것이 필요하다.
- emacs에서는 보통 프로그래밍 코드에서 tab이 auto-indentation을 수행하기 때문에
- company는 상황에 따라서 indentation과 complete를 알아서 수행하는 기능을 가지고 있다.
-
-** 윈도우 환경
+* 윈도우 환경
  Emacs 64-bit 빌드가 [[https://sourceforge.net/projects/emacsbinw64/][sourceforge]] 에서 제공 중인 버전도 있고,
  GNU 공식 홈페이지도 64-bit 버전을 제공하고 있었다.
  최근(2017년 1월) 확인한 결과로는 둘 다 안정적으로 동작한다.
 
-*** 영문자 외 폰트로 인한 속도 저하
- 리눅스 버전에서는 경험하지 못했던 문제로, 윈도우 버전에서 발생한 문제다.
- 영문으로 된 영역에서는 커서 이동이 잘 되다가 한글이 있는 라인으로 갈 경우 속도가 느려지는 것을 관찰했다.
- 그리고 한-영 전환 시에도 꽤 오래 시간이 소요되었다.
- 결국 폰트 문제라는 것을 알게 되었는데,
- 기존의 경우 아래와 같이 영문 폰트와 한글 폰트를 함께 지정했다.
- #+BEGIN_SRC emacs-lisp
- (set-default-font "Fira Code Retina-13")
- (set-fontset-font "fontset-default" 'korean-ksc5601 "Noto Sans Mono CJK KR-13")
- #+END_SRC
+** 영문자 외 폰트로 인한 속도 저하
+리눅스 버전에서는 경험하지 못했던 문제로, 윈도우 버전에서 발생한 문제다.
+영문으로 된 영역에서는 커서 이동이 잘 되다가 한글이 있는 라인으로 갈 경우 속도가 느려지는 것을 관찰했다.
+그리고 한-영 전환 시에도 꽤 오래 시간이 소요되었다.
+결국 폰트 문제라는 것을 알게 되었는데,
+기존의 경우 아래와 같이 영문 폰트와 한글 폰트를 함께 지정했다.
 
- 이 경우 영문인지, 한글인지에 따라 폰트 표현을 다르게 가져가야 해서 시간이 많이 걸리는 것으로 추측된다.
- 아래와 같이 한글과 영문을 함께 가지고 있는 고정폭 폰트(D2 Coding이나 NanumGothicCoding)을 사용하면
- 확실한 성능 개선을 볼 수 있었다.
+#+BEGIN_SRC emacs-lisp
+(set-default-font "Fira Code Retina-13")
+(set-fontset-font "fontset-default" 'korean-ksc5601 "Noto Sans Mono CJK KR-13")
+#+END_SRC
 
- #+BEGIN_SRC emacs-lisp
- (set-default-font "D2Coding-14")
- #+END_SRC
+이 경우 영문인지, 한글인지에 따라 폰트 표현을 다르게 가져가야 해서 시간이 많이 걸리는 것으로 추측된다.
+아래와 같이 한글과 영문을 함께 가지고 있는 고정폭 폰트(D2 Coding이나 NanumGothicCoding)을 사용하면
+확실한 성능 개선을 볼 수 있었다.
 
-** 테마
- 추천 테마는 material이나 tao-theme다.
- [[MELPA]]에서 패키지로 설치할 수 있다.
+#+BEGIN_SRC emacs-lisp
+(set-default-font "D2Coding-14")
+#+END_SRC
 
- 설치 후 (load-theme '[theme-name] t)를 .emacs에 추가하면 사용할 수 있다.
- material의 경우 material, tao의 경우 tao-yin을 추천한다.
+* 테마
 
-** Error 발생 시
+material이나 tao-theme, doom-themes 모두 좋다.
+[[MELPA]]에서 패키지로 설치할 수 있다.
 
-*** 윈도우 환경에서 Wrong type argument: stringp, nil 발생
- 개인적으로는 Clojure + CIDER 환경에서 cider-jack-in이 되지 않을 때 발생했다.
- emacs에서 외부 명령을 실행하려 할 때 발생할 수 있는 문제인데,
- 디버그 메시지에 cmd.exe 관련된 내용이 있다면 관련 에러일 수 있다.
- 윈도우 환경변수 설정하는 곳으로 가서
- COMSPEC 환경변수를 C:\Windows\System32\cmd.exe로 설정하면 문제가 해결될 수 있다.
+설치 후 (load-theme '[theme-name] t)를 .emacs에 추가하면 사용할 수 있다.
+테마별로 추가 설정이 있을 수 있으니 각 홈페이지 참조.
 
-** 기타 팁
+현재(2019년 6월)는 doom theme 사용 중.
 
-*** ido-mode와 새 파일 생성 시 충돌
- ido-mode가 동작 중일 때,
- abc.txt라는 파일을 만들고 싶은데
- 이미 다른 디렉토리에 같은 이름의 파일이 있고
- 내가 그 파일을 최근에 열었던 적이 있다면,
- C-x C-f 입력 후 abc.txt를 입력하면 예전에 열었던 파일을 열려고 한다.
- 생각해보면 C-x C-f은 find file이라는 의미의 단축키이기 때문에 이렇게 동작하는 것이 일리가 있다.
+* Error 발생 시
 
- 이런 경우는 자주 발생하지 않지만
- .gitignore를 만들 때와 같이 동일한 파일이 여러 디렉토리에 있을 경우가 있을 수 있다.
- ido-mode를 잠시 해제하기 위해서는
- C-x C-f C-f를 이용하면 된다.
- 즉, find file 상태에서 C-f를 한 번 더 입력하는 것이다.
- 이렇게 하면 ido-mode가 풀리게 되고 ido-mode를 사용하지 않을 때와 같이 새 버퍼를 만들 수 있다.
+** 윈도우 환경에서 Wrong type argument: stringp, nil 발생
+
+개인적으로는 Clojure + CIDER 환경에서 cider-jack-in이 되지 않을 때 발생했다.
+emacs에서 외부 명령을 실행하려 할 때 발생할 수 있는 문제인데,
+디버그 메시지에 cmd.exe 관련된 내용이 있다면 관련 에러일 수 있다.
+윈도우 환경변수 설정하는 곳으로 가서
+COMSPEC 환경변수를 C:\Windows\System32\cmd.exe로 설정하면 문제가 해결될 수 있다.
+
+* 기타 팁
+
+** ido-mode와 새 파일 생성 시 충돌
+
+ido-mode가 동작 중일 때, abc.txt라는 파일을 만들고 싶다고 가정하자.
+다른 디렉토리에 같은 이름의 파일이 있고, 내가 그 파일을 최근에 열었던 적이 있다면, C-x C-f에서 기존 파일을 열려고 시도하게 된다.
+C-x C-f은 find file이라는 의미의 단축키이기 때문에, 이렇게 동작하는 것이 일리가 있다.
+
+이런 경우는 자주 발생하지 않지만 .gitignore를 만들 때와 같이 동일한 파일이 여러 디렉토리에 있을 경우가 있을 수 있다.
+ido-mode를 잠시 해제하기 위해서는 C-x C-f C-f를 이용하면 된다.
+이렇게 하면 ido-mode가 풀리게 되고 ido-mode를 사용하지 않을 때와 같이 새 버퍼를 만들 수 있다.
+
 
